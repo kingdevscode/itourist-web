@@ -16,9 +16,16 @@ class CreateCommentairesTable extends Migration
         Schema::create('commentaires', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->string('texte');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('abjet_id');
+            $table->unsignedBigInteger('user_id')->comment('utilisateur qui commente');
+            $table->unsignedBigInteger('speaker_id')->comment('utilisateur qu\'on commenter')->nullable();
+            $table->unsignedBigInteger('article_id')->comment('article qui est commenter')->nullable();
+            $table->unsignedBigInteger('logement_id')->comment('logement qui est commenter')->nullable();
+            $table->unsignedBigInteger('site_id')->comment('site qui est commenter')->nullable();
+            $table->foreign('speaker_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('logement_id')->references('id')->on('logements')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('site_id')->references('id')->on('site')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -13,9 +13,12 @@ class CreateVillesTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('villes', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->string('nom');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
     }
