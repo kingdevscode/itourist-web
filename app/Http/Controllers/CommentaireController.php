@@ -30,9 +30,10 @@ class CommentaireController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('commentaire.ajoutCommentaire');
+        $user['id']=$id;
+        return view('commentaire.ajoutCommentaire', compact('user'));
     }
 
     /**

@@ -30,9 +30,10 @@ class CommentaireLogementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('commentaire.commentaireLogement.ajoutCommentaire');
+        $logement['id']=$id;
+        return view('commentaire.commentaireLogement.ajoutCommentaire', compact('logement'));
     }
 
     /**

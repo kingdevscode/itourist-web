@@ -30,9 +30,10 @@ class NoteSiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('note.noteSite.ajoutNote');
+        $site['id']=$id;
+        return view('note.noteSite.ajoutNote', compact('site'));
     }
 
     /**

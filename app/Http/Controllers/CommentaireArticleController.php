@@ -30,10 +30,12 @@ class CommentaireArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('commentaire.commentaireArticle.ajoutCommentaire');
+        $article['id']=$id;
+        return view('commentaire.commentaireArticle.ajoutCommentaire', compact('article'));
     }
+
 
     /**
      * Store a newly created resource in storage.

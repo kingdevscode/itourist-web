@@ -30,9 +30,10 @@ class CommentaireSiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('commentaire.commentaireSite.ajoutCommentaire');
+        $site['id']=$id;
+        return view('commentaire.commentaireSite.ajoutCommentaire', compact('site'));
     }
 
     /**

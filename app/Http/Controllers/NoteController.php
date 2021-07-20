@@ -30,9 +30,10 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('note.ajoutNote');
+        $user['id']=$id;
+        return view('note.ajoutNote',compact('user'));
     }
 
     /**

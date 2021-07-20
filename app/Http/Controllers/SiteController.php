@@ -35,8 +35,9 @@ class SiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+        $user['id']=$id;
         return view('site.ajoutSite');
     }
 
