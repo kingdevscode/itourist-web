@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Commentaire;
 use Illuminate\Http\Request;
 
-class CommentaireController extends Controller
+class CommentaireLogementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class CommentaireController extends Controller
          ->join('users', 'commentaires.user_id', '=', 'users.id')
          ->latest()
          ->get();
-        return view('commentaire.listeCommentaire', compact('commentaire'));
+        return view('commentaire.commentaireLogement.listeCommentaire', compact('commentaire'));
     }
 
     /**
@@ -32,7 +32,7 @@ class CommentaireController extends Controller
      */
     public function create()
     {
-        return view('commentaire.ajoutCommentaire');
+        return view('commentaire.commentaireLogement.ajoutCommentaire');
     }
 
     /**
@@ -48,7 +48,7 @@ class CommentaireController extends Controller
             'user_id' => 'required|numeric'
         ]);
         $request=[
-            'speaker_id' => $id,
+            'logement_id' => $id,
             'texte' => $request->texte,
             'user_id' => $request->user_id
         ];
@@ -72,7 +72,7 @@ class CommentaireController extends Controller
          ->where('commentaires.id', '=', $id)
          ->latest()
          ->get();
-        return view('commentaire.detailCommentaire', compact('commentaire'));
+        return view('commentaire.commentaireLogement.detailCommentaire', compact('commentaire'));
     }
 
     /**
@@ -84,7 +84,7 @@ class CommentaireController extends Controller
     public function edit($id)
     {
         $commentaire = Commentaire::findOrFail($id);
-        return view('commentaire.ajoutCommentaire', compact('commentaire'));
+        return view('commentaire.commentaireLogement.ajoutCommentaire', compact('commentaire'));
     }
 
     /**
@@ -94,14 +94,14 @@ class CommentaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id,$speaker_id)
+    public function update(Request $request, $id,$logement_id)
     {
         $request->validate([
             'texte' => 'required',
             'user_id' => 'required|numeric'
         ]);
         $request=[
-            'speaker_id' => $speaker_id,
+            'logement_id' => $logement_id,
             'texte' => $request->texte,
             'user_id' => $request->user_id
         ];

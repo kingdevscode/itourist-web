@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Commentaire;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
-class CommentaireController extends Controller
+class NoteLogementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +15,14 @@ class CommentaireController extends Controller
      */
     public function index()
     {
-        $commentaire=Commentaire::select(
-            'commentaires.*',
-            'users.nom as touriste'
-         )
-         ->join('users', 'commentaires.user_id', '=', 'users.id')
-         ->latest()
-         ->get();
-        return view('commentaire.listeCommentaire', compact('commentaire'));
+        $note=Note::select(
+                   'notes.*',
+                   'users.nom as touriste'
+                )
+                ->join('users', 'notes.user_id', '=', 'users.id')
+                ->latest()
+                ->get();
+        return view('note.noteLogement.listeNote', compact('note'));
     }
 
     /**
@@ -32,7 +32,7 @@ class CommentaireController extends Controller
      */
     public function create()
     {
-        return view('commentaire.ajoutCommentaire');
+        return view('note.noteLogement.ajoutNote');
     }
 
     /**
@@ -44,15 +44,15 @@ class CommentaireController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            'texte' => 'required',
+            'note' => 'required',
             'user_id' => 'required|numeric'
         ]);
         $request=[
-            'speaker_id' => $id,
-            'texte' => $request->texte,
+            'logement_id' => $id,
+            'note' => $request->note,
             'user_id' => $request->user_id
         ];
-        $commentaire=Commentaire::create($request);
+        $note=Note::create($request);
         return back()->with('message_success','Added Successfuly');
     }
 
@@ -64,15 +64,15 @@ class CommentaireController extends Controller
      */
     public function show($id)
     {
-        $commentaire=Commentaire::select(
-            'commentaires.*',
+        $note=Note::select(
+            'notes.*',
             'users.nom as touriste'
          )
-         ->join('users', 'commentaires.user_id', '=', 'users.id')
-         ->where('commentaires.id', '=', $id)
+         ->join('users', 'notes.user_id', '=', 'users.id')
+         ->where('notes.id', '=', $id)
          ->latest()
          ->get();
-        return view('commentaire.detailCommentaire', compact('commentaire'));
+        return view('note.noteLogement.detailNote', compact('note'));
     }
 
     /**
@@ -83,8 +83,8 @@ class CommentaireController extends Controller
      */
     public function edit($id)
     {
-        $commentaire = Commentaire::findOrFail($id);
-        return view('commentaire.ajoutCommentaire', compact('commentaire'));
+        $note = Note::findOrFail($id);
+        return view('note.noteLogement.ajoutNote', compact('note'));
     }
 
     /**
@@ -94,19 +94,19 @@ class CommentaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id,$speaker_id)
+    public function update(Request $request, $id,$logement_id)
     {
         $request->validate([
-            'texte' => 'required',
+            'note' => 'required',
             'user_id' => 'required|numeric'
         ]);
         $request=[
-            'speaker_id' => $speaker_id,
-            'texte' => $request->texte,
+            'logement_id' => $logement_id,
+            'note' => $request->note,
             'user_id' => $request->user_id
         ];
-        $commentaire = Commentaire::findOrFail($id);
-        $commentaire->update($request);
+        $note = Note::findOrFail($id);
+        $note->update($request);
         return back()->with('message_success','Updated successfuly!');
     }
 
@@ -118,8 +118,8 @@ class CommentaireController extends Controller
      */
     public function destroy($id)
     {
-        Commentaire::findOrFail($id);
-        Commentaire::destroy($id);
+        Note::findOrFail($id);
+        Note::destroy($id);
         return back()->with('message_success','Deleted successfuly!');
     }
 }

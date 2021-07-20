@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Demande;
 use Illuminate\Http\Request;
 
 class DemandeController extends Controller
@@ -13,7 +14,8 @@ class DemandeController extends Controller
      */
     public function index()
     {
-        //
+        $demande=Demande::all();
+        return view('demande.listeDemande', compact('demande'));
     }
 
     /**
@@ -23,7 +25,7 @@ class DemandeController extends Controller
      */
     public function create()
     {
-        //
+        return view('demande.ajoutDemande');
     }
 
     /**
@@ -34,7 +36,14 @@ class DemandeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titre' => 'required',
+            'motivation' => 'required',
+            'statut' => 'required',
+            'user_id' => 'required|numeric'
+        ]);
+        $demande=Demande::create($request->all());
+        return back()->with('message_success','Added Successfuly');
     }
 
     /**
@@ -56,7 +65,8 @@ class DemandeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $demande = Demande::findOrFail($id);
+        return view('demande.ajoutDemande', compact('demande'));
     }
 
     /**
@@ -68,7 +78,22 @@ class DemandeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'titre' => 'required',
+            'motivation' => 'required',
+            'statut' => 'required',
+            'user_id' => 'required|numeric'
+        ]);
+        $demande = Demande::findOrFail($id);
+        $request=[
+            'titre' => $request->titre,
+            'motivation' => $request->motivation,
+            'statut' => $request->statut,
+            'user_id' => $demande->user_id,
+            'admin_id' => $request->user_id
+        ];
+        $demande->update($request);
+        return back()->with('message_success','Updated successfuly!');
     }
 
     /**
@@ -79,6 +104,8 @@ class DemandeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Demande::findOrFail($id);
+        Demande::destroy($id);
+        return back()->with('message_success','Deleted successfuly!');
     }
 }

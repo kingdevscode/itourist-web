@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -13,7 +15,14 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        $note=Note::select(
+                   'notes.*',
+                   'users.nom as touriste'
+                )
+                ->join('users', 'notes.user_id', '=', 'users.id')
+                ->latest()
+                ->get();
+        return view('note.listeNote', compact('note'));
     }
 
     /**
@@ -23,7 +32,7 @@ class NoteController extends Controller
      */
     public function create()
     {
-        //
+        return view('note.ajoutNote');
     }
 
     /**
@@ -32,9 +41,19 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $request->validate([
+            'note' => 'required',
+            'user_id' => 'required|numeric'
+        ]);
+        $request=[
+            'marker_id' => $id,
+            'note' => $request->note,
+            'user_id' => $request->user_id
+        ];
+        $note=Note::create($request);
+        return back()->with('message_success','Added Successfuly');
     }
 
     /**
@@ -45,7 +64,15 @@ class NoteController extends Controller
      */
     public function show($id)
     {
-        //
+        $note=Note::select(
+            'notes.*',
+            'users.nom as touriste'
+         )
+         ->join('users', 'notes.user_id', '=', 'users.id')
+         ->where('notes.id', '=', $id)
+         ->latest()
+         ->get();
+        return view('note.detailNote', compact('note'));
     }
 
     /**
@@ -56,7 +83,8 @@ class NoteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $note = Note::findOrFail($id);
+        return view('note.ajoutNote', compact('note'));
     }
 
     /**
@@ -66,9 +94,20 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,$marker_id)
     {
-        //
+        $request->validate([
+            'note' => 'required',
+            'user_id' => 'required|numeric'
+        ]);
+        $request=[
+            'marker_id' => $marker_id,
+            'note' => $request->note,
+            'user_id' => $request->user_id
+        ];
+        $note = Note::findOrFail($id);
+        $note->update($request);
+        return back()->with('message_success','Updated successfuly!');
     }
 
     /**
@@ -79,6 +118,8 @@ class NoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Note::findOrFail($id);
+        Note::destroy($id);
+        return back()->with('message_success','Deleted successfuly!');
     }
 }

@@ -15,6 +15,7 @@ class CreateDemandesTable extends Migration
     {
         Schema::create('demandes', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->autoIncrement();
+            $table->string('titre');
             $table->string('motivation');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('admin_id')->nullable();
