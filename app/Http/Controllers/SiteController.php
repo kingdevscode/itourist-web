@@ -51,7 +51,7 @@ class SiteController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'images' => 'required',
+            'images' => 'required|image',
             'categorie_id' => 'required|numeric',
             'ville_id' => 'required|numeric',
             'user_id' => 'required|numeric'
