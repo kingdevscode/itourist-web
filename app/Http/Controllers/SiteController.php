@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site;
+use App\Models\User;
+use App\Models\Ville;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -13,7 +16,18 @@ class SiteController extends Controller
      */
     public function index()
     {
-        //
+        $site = Site::select(
+            'sites.*',
+            'users.nom as nom du guide touristique',
+            'villes.nom as ville du site',
+            'categoris.nom as categorie'
+            )
+            ->join('users', 'sites.user_id', '=', 'users.id')
+            ->join('villes', 'sites.ville_id', '=', 'villes.id')
+            ->join('categoris', 'sites.categorie_id', '=', 'categoris.id')
+            ->latest()
+            ->get();
+        return view('site.listeSite', compact('site'));
     }
 
     /**
@@ -21,9 +35,10 @@ class SiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $user['id']=$id;
+        return view('site.ajoutSite');
     }
 
     /**
@@ -34,7 +49,22 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+            'images' => 'required|image',
+            'categorie_id' => 'required|numeric',
+            'ville_id' => 'required|numeric',
+            'user_id' => 'required|numeric'
+        ]);
+        $data=$request->all();
+        if($request->hasFile('images')){
+            $nom=$request->file('images')->getClientOriginalName();
+            $path='site'.date("H-i-s").'_'.$nom;
+            $request->file('images')->move(public_path().'/Sites', $path);
+            $data['images']='/Sites'.'/'.$path;
+        }
+        $site=Site::create($data);
+        return back()->with('message_success','Added Successfuly');
     }
 
     /**
@@ -45,7 +75,19 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        //
+        $site = Site::select(
+            'sites.*',
+            'users.nom as nom du guide touristique',
+            'villes.nom as ville du site',
+            'categoris.nom as categorie'
+            )
+            ->join('users', 'sites.user_id', '=', 'users.id')
+            ->join('villes', 'sites.ville_id', '=', 'villes.id')
+            ->join('categoris', 'sites.categorie_id', '=', 'categoris.id')
+            ->where('sites.id', '=', $id)
+            ->latest()
+            ->get();
+        return view('site.detailSite', compact('Site'));
     }
 
     /**
@@ -56,7 +98,8 @@ class SiteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $site = Site::findOrFail($id);
+        return view('site.ajoutSite', compact('site'));
     }
 
     /**
@@ -68,7 +111,23 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+            'images' => 'required',
+            'categorie_id' => 'required|numeric',
+            'ville_id' => 'required|numeric',
+            'user_id' => 'required|numeric'
+        ]);
+        $data=$request->all();
+        if($request->hasFile('images')){
+            $nom=$request->file('images')->getClientOriginalName();
+            $path='site'.date("H-i-s").'_'.$nom;
+            $request->file('images')->move(public_path().'/Sites', $path);
+            $data['images']='/Sites'.'/'.$path;
+        }
+        $site = Site::findOrFail($id);
+        $site->update($data);
+        return back()->with('message_success','Updated successfuly!');
     }
 
     /**
@@ -79,6 +138,8 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Site::findOrFail($id);
+        Site::destroy($id);
+        return back()->with('message_success','Deleted successfuly!');
     }
 }

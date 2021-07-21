@@ -19,9 +19,11 @@ class CreateLogementsTable extends Migration
             $table->string('description');
             $table->string('images');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('site_id');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('categorie_id')->references('id')->on('categoris')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('site_id')->references('id')->on('sites')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
     }

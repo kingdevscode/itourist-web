@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
@@ -13,7 +14,28 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        //
+        $categorieSite = Categorie::select(
+                    'categoris.nom',
+                    'categoris.description'
+                    )
+                    ->where('categoris.site', '=', 1)
+                    ->latest()
+                    ->get();
+         $categorieLogement = Categorie::select(
+                        'categoris.nom',
+                        'categoris.description'
+                        )
+                        ->where('categoris.logement', '=', 2)
+                        ->latest()
+                        ->get();
+         $categorieArticle = Categorie::select(
+                        'categoris.nom',
+                        'categoris.description'
+                        )
+                        ->where('categoris.article', '=', 3)
+                        ->latest()
+                        ->get();
+        return view('categorie.listecategorie', compact('categorieSite', 'categorieLogement', 'categorieArticle'));
     }
 
     /**
@@ -23,7 +45,7 @@ class CategorieController extends Controller
      */
     public function create()
     {
-        //
+        return view('categorie.ajoutCategorie');
     }
 
     /**
@@ -34,7 +56,24 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (isset($request->site)) {
+            $request->validate([
+                'nom' => 'required',
+                'description' => 'required'
+            ]);
+        } else if(isset($request->logement)){
+            $request->validate([
+                'nom' => 'required',
+                'description' => 'required'
+            ]);
+        } else{
+            $request->validate([
+                'nom' => 'required',
+                'description' => 'required'
+            ]);
+        }
+        $categorie=Categorie::create($request->all());
+        return back()->with('message_success','Added Successfuly');
     }
 
     /**
@@ -56,7 +95,8 @@ class CategorieController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categorie = Categorie::findOrFail($id);
+        return view('categorie.ajoutCategorie', compact('categorie'));
     }
 
     /**
@@ -68,7 +108,25 @@ class CategorieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (isset($request->site)) {
+            $request->validate([
+                'nom' => 'required',
+                'description' => 'required'
+            ]);
+        } else if(isset($request->logement)){
+            $request->validate([
+                'nom' => 'required',
+                'description' => 'required'
+            ]);
+        } else{
+            $request->validate([
+                'nom' => 'required',
+                'description' => 'required'
+            ]);
+        }
+        $categorie = Categorie::findOrFail($id);
+        $categorie->update($request->all());
+        return back()->with('message_success','Updated successfuly!');
     }
 
     /**
@@ -79,6 +137,8 @@ class CategorieController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Categorie::findOrFail($id);
+        Categorie::destroy($id);
+        return back()->with('message_success','Deleted successfuly!');
     }
 }
