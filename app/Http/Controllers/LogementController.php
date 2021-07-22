@@ -56,7 +56,7 @@ class LogementController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'images' => 'required',
+            'images' => 'required|mimes:png,jpg,jpeg',
             'description' => 'required',
             'site_id' => 'required|numeric',
             'categorie_id' => 'required|numeric',

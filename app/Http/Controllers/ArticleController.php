@@ -103,7 +103,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'images' => 'required',
+            'images' => 'required|image|mimes:png,jpg,jpeg',
             'description' => 'required',
             'estimation' => 'required',
             'categorie_id' => 'required|numeric',

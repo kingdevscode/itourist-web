@@ -51,7 +51,7 @@ class SiteController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'images' => 'required|image',
+            'images' => 'required|mimes:png,jpg,jpeg',
             'categorie_id' => 'required|numeric',
             'ville_id' => 'required|numeric',
             'user_id' => 'required|numeric'
@@ -113,7 +113,7 @@ class SiteController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'images' => 'required',
+            'images' => 'required|mimes:,jpeg',
             'categorie_id' => 'required|numeric',
             'ville_id' => 'required|numeric',
             'user_id' => 'required|numeric'
