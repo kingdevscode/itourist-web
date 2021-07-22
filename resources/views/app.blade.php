@@ -127,7 +127,7 @@
 					<div class="user-account">
 						<div class="user-info">
 							<img src="http://via.placeholder.com/30x30" alt="">
-							<a href="#" title="">Account</a>
+
 							<i class="la la-sort-down"></i>
 						</div>
 						<div class="user-account-settingss">
@@ -135,7 +135,7 @@
                                 @if (Auth::check())
                                     {{Auth::user()->email}}
                                 @else
-                                    <a href="Login">Sign in</a> or <a href="register">Create account</a>
+                                    <a href="{{route('login')}}">Sign in</a> or <a href="{{route('register')}}">Create account</a>
                                 @endif
                             </h3>
 							<h3>Online Status</h3>
