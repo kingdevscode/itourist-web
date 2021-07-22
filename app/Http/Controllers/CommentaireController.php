@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
 
 class CommentaireController extends Controller
@@ -13,7 +15,14 @@ class CommentaireController extends Controller
      */
     public function index()
     {
-        //
+        $commentaire=Commentaire::select(
+            'commentaires.*',
+            'users.nom as touriste'
+         )
+         ->join('users', 'commentaires.user_id', '=', 'users.id')
+         ->latest()
+         ->get();
+        return view('commentaire.listeCommentaire', compact('commentaire'));
     }
 
     /**
@@ -21,9 +30,10 @@ class CommentaireController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $user['id']=$id;
+        return view('commentaire.ajoutCommentaire', compact('user'));
     }
 
     /**
@@ -32,9 +42,19 @@ class CommentaireController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $request->validate([
+            'texte' => 'required',
+            'user_id' => 'required|numeric'
+        ]);
+        $request=[
+            'speaker_id' => $id,
+            'texte' => $request->texte,
+            'user_id' => $request->user_id
+        ];
+        $commentaire=Commentaire::create($request);
+        return back()->with('message_success','Added Successfuly');
     }
 
     /**
@@ -45,7 +65,15 @@ class CommentaireController extends Controller
      */
     public function show($id)
     {
-        //
+        $commentaire=Commentaire::select(
+            'commentaires.*',
+            'users.nom as touriste'
+         )
+         ->join('users', 'commentaires.user_id', '=', 'users.id')
+         ->where('commentaires.id', '=', $id)
+         ->latest()
+         ->get();
+        return view('commentaire.detailCommentaire', compact('commentaire'));
     }
 
     /**
@@ -56,7 +84,8 @@ class CommentaireController extends Controller
      */
     public function edit($id)
     {
-        //
+        $commentaire = Commentaire::findOrFail($id);
+        return view('commentaire.ajoutCommentaire', compact('commentaire'));
     }
 
     /**
@@ -66,9 +95,20 @@ class CommentaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,$speaker_id)
     {
-        //
+        $request->validate([
+            'texte' => 'required',
+            'user_id' => 'required|numeric'
+        ]);
+        $request=[
+            'speaker_id' => $speaker_id,
+            'texte' => $request->texte,
+            'user_id' => $request->user_id
+        ];
+        $commentaire = Commentaire::findOrFail($id);
+        $commentaire->update($request);
+        return back()->with('message_success','Updated successfuly!');
     }
 
     /**
@@ -79,6 +119,8 @@ class CommentaireController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Commentaire::findOrFail($id);
+        Commentaire::destroy($id);
+        return back()->with('message_success','Deleted successfuly!');
     }
 }
