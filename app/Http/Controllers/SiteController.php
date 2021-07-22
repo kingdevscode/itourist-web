@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Site;
 use App\Models\User;
 use App\Models\Ville;
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -35,10 +36,11 @@ class SiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
     {
-        $user['id']=$id;
-        return view('site.ajoutSite');
+        $ville=Ville::all();
+        $categorie=Categorie::all();
+        return view('site.ajoutSite', compact('ville', 'categorie'));
     }
 
     /**
