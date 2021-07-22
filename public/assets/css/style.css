@@ -281,7 +281,6 @@ header {
 	float: left;
 	width: 40px;
 	margin-right: 14px;
-	margin-top: 10px;
 }
 .logo.pd-btm {
 	padding-bottom: 10px;
@@ -359,7 +358,6 @@ header {
 .search-bar {
 	float: left;
 	width: 280px;
-	margin-top: 9px;
 }
 .search-bar form {
 	float: left;

@@ -29,7 +29,7 @@
 
 		<header>
 			<div class="container">
-				<div class="header-data">
+				<div class="header-data" style="display: flex; align-items: center; justifiy-content: space-between;">
 					<div class="logo">
 						<a href="index.html" title=""><img src=" {{ url('assets/images/logon.png') }} " width="40px" alt=""></a>
 					</div><!--logo end-->
