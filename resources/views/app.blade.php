@@ -190,7 +190,7 @@
 		</header><!--header end-->
 
 		<main>
-
+            @yield('content')
 		</main>
 
 	</div><!--theme-layout end-->
