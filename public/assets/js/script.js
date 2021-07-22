@@ -1,7 +1,7 @@
 $(window).on("load", function() {
     "use strict";
 
-
+    
 
     //  ============= POST PROJECT POPUP FUNCTION =========
 
@@ -187,7 +187,7 @@ $(window).on("load", function() {
     });
 
 
-    //  ============== ChatBox ==============
+    //  ============== ChatBox ============== 
 
 
     $(".chat-mg").on("click", function(){
@@ -244,7 +244,7 @@ $(window).on("load", function() {
     //  ============= PORTFOLIO SLIDER FUNCTION =========
 
     $('.profiles-slider').slick({
-        slidesToShow: 1,
+        slidesToShow: 3,
         slck:true,
         slidesToScroll: 1,
         prevArrow:'<span class="slick-previous"></span>',

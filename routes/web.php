@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/app', function () {
-    return view('test');
+    return view('app');
 });
 
 Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
