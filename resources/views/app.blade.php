@@ -126,57 +126,35 @@
 					</div><!--menu-btn end-->
 					<div class="user-account">
 						<div class="user-info">
-							<img src="http://via.placeholder.com/30x30" alt="">
-							<a href="#" title="">Account</a>
-							<i class="la la-sort-down"></i>
+                            <span class="la">
+                                <img src="{{url(Auth::user()->profile)}}" style="width: 50px; height:50px;" class="user-avatar-nav" alt="">
+                            </span>
 						</div>
 						<div class="user-account-settingss">
-							<h3>
+							<h3 class="widget widget-about">
                                 @if (Auth::check())
-                                    {{Auth::user()->email}}
+                                <div class="sign_link">
+                                   <label>
+                                        {{Auth::user()->email}}
+                                    </label>
+                                    <a href="{{url('user-infos/'. Auth::user()->id)}}" title="">Informations personnelles</a>
+                                </div>
+                                <div class="la">
+                                    <img src="{{url(Auth::user()->profile)}}"
+                                    style="
+                                    width: 150px;
+                                    height: 150px;
+                                    clip-path:ellipse(50% 50%);
+                                    ">
+                                </div>
                                 @else
-                                    <a href="Login">Sign in</a> or <a href="register">Create account</a>
+                                    <a href="Login">Connexion</a> ou <a href="register">Enregistrement</a>
                                 @endif
                             </h3>
-							<h3>Online Status</h3>
-							<ul class="on-off-status">
-								<li>
-									<div class="fgt-sec">
-										<input type="radio" name="cc" id="c5">
-										<label for="c5">
-											<span></span>
-										</label>
-										<small>Online</small>
-									</div>
-								</li>
-								<li>
-									<div class="fgt-sec">
-										<input type="radio" name="cc" id="c6">
-										<label for="c6">
-											<span></span>
-										</label>
-										<small>Offline</small>
-									</div>
-								</li>
-							</ul>
-							<h3>Custom Status</h3>
-							<div class="search_form">
-								<form>
-									<input type="text" name="search">
-									<button type="submit">Ok</button>
-								</form>
-							</div><!--search_form end-->
-							<h3>Setting</h3>
-							<ul class="us-links">
-								<li><a href="profile-account-setting.html" title="">Account Setting</a></li>
-								<li><a href="#" title="">Privacy</a></li>
-								<li><a href="#" title="">Faqs</a></li>
-								<li><a href="#" title="">Terms & Conditions</a></li>
-							</ul>
 							<h3 class="tc"><a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        Déconnexion
                             </a></h3>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf

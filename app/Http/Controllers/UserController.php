@@ -70,10 +70,6 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -106,6 +102,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+    }
+    public function show($id)
+    {
+        return view('user-infos');
     }
 }

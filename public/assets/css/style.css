@@ -525,7 +525,6 @@ nav > ul > li > a:hover {
 
 .user-account {
 	float: right;
-	width: 110px;
 	border-left: 1px solid #dd3e2b;
 	border-right: 1px solid #dd3e2b;
 	box-sizing: border-box;
@@ -534,7 +533,7 @@ nav > ul > li > a:hover {
 .user-info {
 	float: left;
 	width: 100%;
-	padding: 13px 10px;
+	padding: 8px 8px;
 	position: relative;
 }
 .user-account-settingss {
@@ -2540,7 +2539,7 @@ footer {
 /* ============= user_profile ============= */
 
 .user_profile {
-	float: left;
+	float: right;
 	width: 100%;
 	background-color: #fff;
 	margin-bottom: 20px;

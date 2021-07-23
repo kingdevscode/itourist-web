@@ -73,7 +73,7 @@ class RegisterController extends Controller
         $imageName = time() . '.' . $data['profile']->getClientOriginalExtension();
 
         $data['profile']->move(
-        base_path() . '/assets/profiles', $imageName
+        base_path() . '/public/assets/images/profiles', $imageName
         );
 
         /* $destinationPath = public_path('uploads/images/profiles');
@@ -85,7 +85,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'tel' => $data['tel'],
             'password' => bcrypt($data['password']),
-            'profile' => 'assets/profiles/'. $imageName,
+            'profile' => 'assets/images/profiles/'. $imageName,
         ]);
     }
 }

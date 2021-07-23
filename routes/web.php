@@ -24,9 +24,13 @@ Route::get('/app', function () {
 
 Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
 
+Route::get('/user-infos/{id}', 'App\Http\Controllers\UserController@show');
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::name('tourisme')->namespace('')->prefix('/tourisme')->group(function (){
