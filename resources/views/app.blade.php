@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 <meta charset="UTF-8">
 <title>WorkWise Html Template</title>
@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="{{ url('assets/lib/slick/slick-theme.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url('assets/css/style.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url('assets/css/responsive.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url('assets/css/sweetalert2.css') }}">
 </head>
 
 
@@ -204,6 +205,7 @@
 <script type="text/javascript" src=" {{ url('assets/lib/slick/slick.min.js') }}"></script>
 <script type="text/javascript" src=" {{ url('assets/js/scrollbar.js') }}"></script>
 <script type="text/javascript" src=" {{ url('assets/js/script.js') }}"></script>
+<script type="text/javascript" src=" {{ url('assets/js/sweetalert2.all.min.js') }} "></script>
 
 </body>
 </html>
