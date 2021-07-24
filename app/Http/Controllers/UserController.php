@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
+use App\Models\Note;
 use App\Models\User;
 use Carbon\Carbon;
 use DB;
@@ -136,7 +137,18 @@ class UserController extends Controller
             ->get();
             $nbCommentaires = $Commentaires->count();
 
+        $Notes = Note::select(
+            'notes.*',
+            'users.profile AS profile',
+            'users.nom AS user'
+        )
+            ->join('users', 'notes.marker_id', '=', 'users.id')
+            ->where('users.id', '=', $id)
+            ->orderByDesc('created_at')
+            ->get();
+            $nbNotes = $Notes->count();
+
         return view('auth.user-infos', ['user' => $User, 'commentaires' => $Commentaires,
-        'nbCommentaires' => $nbCommentaires]);
+        'nbCommentaires' => $nbCommentaires, 'nbNotes' => $nbNotes]);
     }
 }

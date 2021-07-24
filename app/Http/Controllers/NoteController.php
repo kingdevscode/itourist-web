@@ -98,7 +98,7 @@ class NoteController extends Controller
     public function update(Request $request, $id,$marker_id)
     {
         $request->validate([
-            'note' => 'required',
+            'note' => 'required|min:1|max:5',
             'user_id' => 'required|numeric'
         ]);
         $request=[

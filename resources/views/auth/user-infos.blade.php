@@ -30,18 +30,26 @@
                                         <a href="#" title=""><i class="fa fa-camera"></i></a>
                                     </div><!--user-pro-img end-->
                                     <div class="user_pro_status">
-                                        <ul class="flw-hr">
-                                            <li><a href="#" title="" class="flww"><i class="la la-plus"></i> Follow</a></li>
-                                            <li><a href="#" title="" class="hre">Hire</a></li>
-                                        </ul>
                                         <ul class="flw-status">
+                                            @if ($user['bio'])
+                                                <ul class="flw-status">
+                                                    @if ($user['bio'])
+                                                        <li>
+                                                            <p>{{$user->bio}}</p>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            @endif
+                                            <br><br><br>
                                             <li>
-                                                <span>Following</span>
-                                                <b>34</b>
+                                                <a href="#"><i class="la la-heart"></i>J'aime</a>
+                                                <img src="images/liked-img.png" alt="">
+                                                <span class="ml-1">{{$nbNotes}}</span>
                                             </li>
                                             <li>
-                                                <span>Followers</span>
-                                                <b>155</b>
+                                                <a href="#" title="" class="com"><i class="fa fa-comment">Commentaires</i></a>
+                                                <img src="images/com.png" alt="">
+                                                <span class="ml-1">{{$nbCommentaires}}</span>
                                             </li>
                                         </ul>
                                     </div><!--user_pro_status end-->
@@ -138,7 +146,7 @@
                                             <li data-tab="saved-jobs">
                                                 <a href="#" title="">
                                                     <img src="images/ic4.png" alt="">
-                                                    <span>Commentaires</span>
+                                                    <span>Avis</span>
                                                 </a>
                                             </li>
                                             <li data-tab="my-bids">
@@ -221,11 +229,18 @@
                                         <div class="post-bar no-margin">
                                             <div class="job-status-bar">
                                                 <ul class="like-com">
-                                                    <li>
-                                                        <a href="#"><i class="la la-heart"></i>J'aime</a>
-                                                        <img src="images/liked-img.png" alt="">
-                                                        <span class="ml-1">25</span>
-                                                    </li>
+                                                    <form method="POST" action="{{ url('tourisme/note/add-note/'.$user->id) }}" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="hidden" name="note" value="1">
+                                                        <button type="submit">
+                                                           <li>
+                                                            <a><i class="la la-heart"></i>J'aime</a>
+                                                                <img src="images/liked-img.png" alt="">
+                                                                <span class="ml-1">{{$nbNotes}}</span>
+                                                            </li>
+                                                        </button>
+                                                    </form>
+
                                                     <li>
                                                         <a href="#" title="" class="com"><i class="fa fa-comment">Commentaires</i></a>
                                                         <img src="images/com.png" alt="">
@@ -247,7 +262,7 @@
                                                                     <h3>{{$commentaire->user}}</h3>
                                                                     <span><img src="images/clock.png" alt="">{{$commentaire->created_at->diffForHumans()}}</span>
                                                                     <p>{{$commentaire->texte}}</p>
-                                                                    <a href="#" title=""><i class="fa fa-reply-all"></i>Reply</a>
+                                                                    <a href="#" title=""><i class="fa fa-reply-all"></i>Repondre</a>
                                                                 </div>
                                                             </div><!--comment-list end-->
                                                         </li>
@@ -262,7 +277,7 @@
                                                     <form method="POST" action="{{ url('tourisme/commentaire/add-commentaire/'.$user->id) }}" enctype="multipart/form-data">
                                                         @csrf
                                                         <input type="text" name="texte" minlength="1" placeholder="Laisser un commentaire">
-                                                        <button type="submit">Envoyer</button>
+                                                        <button type="submit"><i class="fa fa-send"></i></button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -375,7 +390,9 @@
                                                     <li><a href="#" title="">Wordpress</a></li>
                                                     <li><a href="#" title="">Photoshop</a></li>
                                                     <li><a href="#" title="">Illustrator</a></li>
-                                                    <li><a href="#" title="">Corel Draw</a></li>
+                                                    <li><a href="#" title="">Corel Draw<<a href="#"><i class="la la-heart"></i>J'aime</a>
+                                                        <img src="images/liked-img.png" alt="">
+                                                        <span class="ml-1">25</span>/a></li>
                                                 </ul>
                                             </div>
                                             <div class="job-status-bar">
