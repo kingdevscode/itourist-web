@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 <meta charset="UTF-8">
 <title>WorkWise Html Template</title>
@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="{{ url('assets/lib/slick/slick-theme.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url('assets/css/style.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url('assets/css/responsive.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url('assets/css/sweetalert2.css') }}">
 </head>
 
 
@@ -148,7 +149,11 @@
                                     ">
                                 </div>
                                 @else
+<<<<<<< HEAD
                                     <a href="Login">Connexion</a> ou <a href="register">Enregistrement</a>
+=======
+                                    <a href="{{route('login')}}">Sign in</a> or <a href="{{route('register')}}">Create account</a>
+>>>>>>> d8e3ebcb3dc1ebc3daa84cf382df88db5d96f6e9
                                 @endif
                             </h3>
 							<h3 class="tc"><a class="dropdown-item" href="{{ route('logout') }}"
@@ -168,7 +173,7 @@
 		</header><!--header end-->
 
 		<main>
-
+            @yield('content')
 		</main>
 
 	</div><!--theme-layout end-->
@@ -182,6 +187,7 @@
 <script type="text/javascript" src=" {{ url('assets/lib/slick/slick.min.js') }}"></script>
 <script type="text/javascript" src=" {{ url('assets/js/scrollbar.js') }}"></script>
 <script type="text/javascript" src=" {{ url('assets/js/script.js') }}"></script>
+<script type="text/javascript" src=" {{ url('assets/js/sweetalert2.all.min.js') }} "></script>
 
 </body>
 </html>

@@ -61,7 +61,7 @@ Route::middleware(['auth','add-user'])->group(function () {
             Route::get('/edit-ville/{id}', 'App\Http\Controllers\VilleController@edit')->name('ville-edit');
             Route::post('/update-ville/{id}', 'App\Http\Controllers\VilleController@update')->name('ville-update');
             Route::get('/create-ville', 'App\Http\Controllers\VilleController@create')->name('ville-create');
-            Route::get('/delete-ville', 'App\Http\Controllers\VilleController@destroy')->name('ville-delete');
+            Route::get('/delete-ville/{id}', 'App\Http\Controllers\VilleController@destroy')->name('ville-delete');
         });
 
         Route::name('demande.')->namespace('')->prefix('/demande')->group(function (){
