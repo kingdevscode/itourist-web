@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Commentaire;
 use App\Models\Note;
 use App\Models\User;
+use Auth;
 use Carbon\Carbon;
 use DB;
 use Hash;
@@ -129,10 +130,11 @@ class UserController extends Controller
         $Commentaires = Commentaire::select(
             'commentaires.*',
             'users.profile AS profile',
-            'users.nom AS user'
+            'users.nom AS user',
+            'users.email AS email'
         )
-            ->join('users', 'commentaires.speaker_id', '=', 'users.id')
-            ->where('users.id', '=', $id)
+            ->leftjoin('users', 'users.id', '=', 'commentaires.user_id')
+            ->where('commentaires.speaker_id', '=', $id)
             ->orderByDesc('created_at')
             ->get();
             $nbCommentaires = $Commentaires->count();
