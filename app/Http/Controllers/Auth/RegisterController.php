@@ -94,6 +94,7 @@ class RegisterController extends Controller
             'prenom' => $data['prenom'],
             'email' => $data['email'],
             'tel' => $data['tel'],
+            'bio' => 'Bio',
             'password' => bcrypt($data['password']),
             'profile' => 'assets/images/profiles/'. $imageName,
             'couverture' => 'assets/images/couvertures/'. $imageName1,

@@ -140,7 +140,8 @@ class UserController extends Controller
         $Notes = Note::select(
             'notes.*',
             'users.profile AS profile',
-            'users.nom AS user'
+            'users.nom AS user',
+            'users.bio AS bio'
         )
             ->join('users', 'notes.marker_id', '=', 'users.id')
             ->where('users.id', '=', $id)
@@ -149,6 +150,6 @@ class UserController extends Controller
             $nbNotes = $Notes->count();
 
         return view('auth.user-infos', ['user' => $User, 'commentaires' => $Commentaires,
-        'nbCommentaires' => $nbCommentaires, 'nbNotes' => $nbNotes]);
+        'nbCommentaires' => $nbCommentaires, 'notes' => $Notes, 'nbNotes' => $nbNotes]);
     }
 }
