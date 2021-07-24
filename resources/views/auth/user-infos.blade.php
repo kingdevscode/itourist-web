@@ -262,7 +262,7 @@
                                                     <form method="POST" action="{{ url('tourisme/commentaire/add-commentaire/'.$user->id) }}" enctype="multipart/form-data">
                                                         @csrf
                                                         <input type="text" name="texte" minlength="1" placeholder="Laisser un commentaire">
-                                                        <button type="submit">Send</button>
+                                                        <button type="submit">Envoyer</button>
                                                     </form>
                                                 </div>
                                             </div>
