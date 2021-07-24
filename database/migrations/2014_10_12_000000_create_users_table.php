@@ -22,8 +22,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('profile')->nullable();
-           // $table->unsignedBigInteger('ville_id'); //required
-           // $table->foreign('ville_id')->references('id')->on('villes')->onDelete('restrict')->onUpdate('cascade');
+            $table->string('couverture')->nullable();
+            $table->unsignedBigInteger('ville_id')->nullable(); //required
+            $table->foreign('ville_id')->references('id')->on('villes')->onDelete('restrict')->onUpdate('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

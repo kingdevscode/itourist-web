@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/app', function () {
-    return view('app');
+    return view('test');
 });
 
 Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
@@ -27,6 +27,16 @@ Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/{all}/user', 'App\Http\Controllers\UserController@getUsers');
+    Route::post('/', 'App\Http\Controllers\UserController@create');
+    Route::get('/{id}', 'App\Http\Controllers\UserController@show');
+    Route::get('/', 'App\Http\Controllers\UserController@index');
+
+    Route::delete('/{id}', 'App\Http\Controllers\UserController@destroy')->where('user', '[0-9]+');
+    Route::match(['post', 'put'], '/{id}', 'App\Http\Controllers\UserController@update');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::name('tourisme')->namespace('')->prefix('/tourisme')->group(function (){
