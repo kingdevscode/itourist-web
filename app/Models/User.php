@@ -22,7 +22,9 @@ class User extends Authenticatable
         'profile',
         'email',
         'tel',
+        'ville_id',
         'profile',
+        'couverture',
         'password',
     ];
 

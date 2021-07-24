@@ -137,7 +137,7 @@
                                    <label>
                                         {{Auth::user()->email}}
                                     </label>
-                                    <a href="{{url('user-infos/'. Auth::user()->id)}}" title="">Informations personnelles</a>
+                                    <a href="{{url('users/'. Auth::user()->id)}}" title="">Informations personnelles</a>
                                 </div>
                                 <div class="la">
                                     <img src="{{url(Auth::user()->profile)}}"

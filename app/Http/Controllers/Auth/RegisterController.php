@@ -69,15 +69,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $imageName = 'default.png';
+        if (isset($data['profile'])) {
 
-        $imageName = time() . '.' . $data['profile']->getClientOriginalExtension();
+            $imageName = time() . '.' . $data['profile']->getClientOriginalExtension();
 
-        $data['profile']->move(
-        base_path() . '/public/assets/images/profiles', $imageName
-        );
+            $data['profile']->move(
+            base_path() . '/public/assets/images/profiles', $imageName
+            );
+        }
+        $imageName1 = 'default.jpeg';
+        if (isset($data['couverture'])) {
 
-        /* $destinationPath = public_path('uploads/images/profiles');
-         */
+            $imageName = time() . '.' . $data['couverture']->getClientOriginalExtension();
+
+            $data['couverture']->move(
+            base_path() . '/public/assets/images/couvertures', $imageName1
+            );
+        }
 
         return User::create([
             'nom' => $data['nom'],
@@ -86,6 +95,7 @@ class RegisterController extends Controller
             'tel' => $data['tel'],
             'password' => bcrypt($data['password']),
             'profile' => 'assets/images/profiles/'. $imageName,
+            'couverture' => 'assets/images/couvertures/'. $imageName1,
         ]);
     }
 }

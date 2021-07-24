@@ -58,6 +58,7 @@ class UserController extends Controller
             'tel' => $data['tel'],
             'email' => $data['email'],
             'profile' => $data['profile'],
+            'couverture' => $data['couverture'],
             'password' => Hash::make($data['password']),
         ];
         User::create($data);
@@ -106,6 +107,19 @@ class UserController extends Controller
     }
     public function show($id)
     {
-        return view('user-infos');
+        $User = User::select(
+            'users.*',
+            'villes.id AS ville, villes.nom'
+
+        )
+            ->join('villes', 'users.ville_id', '=', 'villes.id')
+            ->where('users.id', '=', $id)
+            ->first();
+
+            $User->profile = url($User->profile);
+            $User->couverture = url($User->couverture);
+
+
+        return view('auth.user-infos', ['user' => $User]);
     }
 }
