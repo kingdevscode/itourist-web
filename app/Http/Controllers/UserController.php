@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Commentaire;
 use App\Models\User;
+use Carbon\Carbon;
+use DB;
 use Hash;
 use Illuminate\Http\Request;
 use Validator;
@@ -109,17 +113,30 @@ class UserController extends Controller
     {
         $User = User::select(
             'users.*',
-            'villes.id AS ville, villes.nom'
-
+            'villes.nom AS ville'
         )
-            ->join('villes', 'users.ville_id', '=', 'villes.id')
+            ->leftjoin('villes', 'users.ville_id', '=', 'villes.id')
             ->where('users.id', '=', $id)
             ->first();
 
-            $User->profile = url($User->profile);
-            $User->couverture = url($User->couverture);
+            //$User->created_at = $User->created_at->diffForHumans();
+            /* SELECT users.nom AS user, villes.nom AS ville FROM `users`
+            LEFT OUTER JOIN `villes` ON users.ville_id = villes.id WHERE
+            users.id=21 */
+        // return response()->json($User, 200);
 
+        $Commentaires = Commentaire::select(
+            'commentaires.*',
+            'users.profile AS profile',
+            'users.nom AS user'
+        )
+            ->join('users', 'commentaires.speaker_id', '=', 'users.id')
+            ->where('users.id', '=', $id)
+            ->orderByDesc('created_at')
+            ->get();
+            $nbCommentaires = $Commentaires->count();
 
-        return view('auth.user-infos', ['user' => $User]);
+        return view('auth.user-infos', ['user' => $User, 'commentaires' => $Commentaires,
+        'nbCommentaires' => $nbCommentaires]);
     }
 }

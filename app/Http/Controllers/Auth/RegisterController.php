@@ -70,6 +70,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $imageName = 'default.png';
+        $imageName1 = 'default.jpeg';$bio = "";
+
         if (isset($data['profile'])) {
 
             $imageName = time() . '.' . $data['profile']->getClientOriginalExtension();
@@ -78,7 +80,6 @@ class RegisterController extends Controller
             base_path() . '/public/assets/images/profiles', $imageName
             );
         }
-        $imageName1 = 'default.jpeg';
         if (isset($data['couverture'])) {
 
             $imageName = time() . '.' . $data['couverture']->getClientOriginalExtension();

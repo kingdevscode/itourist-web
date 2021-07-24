@@ -45,7 +45,7 @@ class CommentaireController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            'texte' => 'required',
+            'texte' => 'required|min:1|max:255',
             'user_id' => 'required|numeric'
         ]);
         $request=[
@@ -53,7 +53,7 @@ class CommentaireController extends Controller
             'texte' => $request->texte,
             'user_id' => $request->user_id
         ];
-        $commentaire=Commentaire::create($request);
+        Commentaire::create($request);
         return back()->with('message_success','Added Successfuly');
     }
 
