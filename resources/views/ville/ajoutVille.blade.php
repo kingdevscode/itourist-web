@@ -47,7 +47,7 @@
                                         <td> {{ $ville->nom }} </td>
                                         <td>
                                             <a href="{{url('tourisme/ville/edit-ville/'.$ville->id)}}" class="btn btn-primary"><i class="fas fa fa-edit"></i></a>
-                                            <a class="btn btn-danger" onclick="deleteConfirmation('./delete-ville/'+{{$ville->id}})">
+                                            <a class="btn btn-danger" onclick="deleteConfirmation('./delete-ville/'+{{$ville->id}},'ville')">
                                                         <i class="fas fa fa-trash"></i>
                                             </a>
                                         </td>

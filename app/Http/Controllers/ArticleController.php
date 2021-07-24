@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Categorie;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -27,7 +29,10 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('article.ajoutArticle');
+        $article = Article::all()->where('user_id','=',Auth::id());
+        $count = $article->count();
+        $categorie = Categorie::all()->whereNotNull('article');
+        return view('article.ajoutArticle', compact('article','categorie','count'));
     }
 
     /**
@@ -40,7 +45,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'images' => 'required',
+            'images' => 'required|mimes:jpg,jpeg,png',
             'description' => 'required',
             'estimation' => 'required',
             'categorie_id' => 'required|numeric',
@@ -54,7 +59,6 @@ class ArticleController extends Controller
             $data['images']='/Articles'.'/'.$path;
         }
         $article=Article::create($data);
-        return response()->json($article,200);
         return back()->with('message_success','Added Successfuly');
     }
 
@@ -89,7 +93,8 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::findOrFail($id);
-        return view('article.ajoutArticle', compact('article'));
+        $categorie = Categorie::all()->whereNotNull('article');
+        return view('article.modifierArticle', compact('article','categorie'));
     }
 
     /**
@@ -118,7 +123,6 @@ class ArticleController extends Controller
         }
         $article = Article::findOrFail($id);
         $article->update($data);
-        return response()->json($article,200);
         return back()->with('message_success','Updated successfuly!');
     }
 
@@ -132,7 +136,6 @@ class ArticleController extends Controller
     {
         Article::findOrFail($id);
         Article::destroy($id);
-        return response()->json(null,200);
         return back()->with('message_success','Deleted successfuly!');
     }
 }

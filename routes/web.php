@@ -87,7 +87,7 @@ Route::middleware(['auth','add-user'])->group(function () {
             Route::get('/edit-article/{id}', 'App\Http\Controllers\ArticleController@edit')->name('article-edit');
             Route::post('/update-article/{id}', 'App\Http\Controllers\ArticleController@update')->name('article-update');
             Route::get('/create-article', 'App\Http\Controllers\ArticleController@create')->name('article-create');
-            Route::get('/delete-article', 'App\Http\Controllers\ArticleController@destroy')->name('article-delete');
+            Route::get('/delete-article/{id}', 'App\Http\Controllers\ArticleController@destroy')->name('article-delete');
         });
 
         /**
