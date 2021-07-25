@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 <meta charset="UTF-8">
-<title>WorkWise Html Template</title>
+<title>Itourist</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="" />
 <meta name="keywords" content="" />
@@ -31,12 +31,12 @@
 			<div class="container">
 				<div class="header-data">
 					<div class="logo">
-						<a href="index.html" title=""><img src="{{ url('assets/images/logon.png') }}" style="width:40px;" alt=""></a>
+						<a href="{{url('/home')}}" title=""><img src="{{ url('assets/images/logon.png') }}" style="width:40px;" alt=""></a>
 					</div><!--logo end-->
 					<div class="search-bar">
-						<form action="">
+						<form action="{{url('/search-all')}}">
                             @csrf
-							<input type="text" name="search" placeholder="Search...">
+							<input type="text" name="search" value="@if(isset($search)){{$search}}@endif" placeholder="Search...">
 							<button type="submit"><i class="la la-search"></i></button>
 						</form>
 					</div><!--search-bar end-->
@@ -47,79 +47,6 @@
 									<span><img src="{{ url('assets/images/icon1.png') }}" alt=""></span>
 									Home
 								</a>
-							</li>
-							<li>
-								<a href="companies.html" title="">
-									<span><img src="{{ url('assets/images/icon2.png') }}" alt=""></span>
-									Sites
-								</a>
-								<ul>
-									<li><a href="companies.html" title="">Gerer</a></li>
-									<li><a href="company-profile.html" title="">Consulter</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="profiles.html" title="">
-									<span><img src="{{ url('assets/images/icon4.png') }}" alt=""></span>
-									Profiles
-								</a>
-								<ul>
-									<li><a href="user-profile.html" title="">User Profile</a></li>
-									<li><a href="my-profile-feed.html" title="">my-profile-feed</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#" title="" class="not-box-open">
-									<span><img src="{{ url('assets/images/icon7.png') }}" alt=""></span>
-									Notifications
-								</a>
-								<div class="notification-box">
-									<div class="nt-title">
-										<h4>Setting</h4>
-										<a href="#" title="">Clear all</a>
-									</div>
-									<div class="nott-list">
-										<div class="notfication-details">
-							  				<div class="noty-user-img">
-							  					<img src="{{ url('assets/images/resources/ny-img1.png') }}" alt="">
-							  				</div>
-							  				<div class="notification-info">
-							  					<h3><a href="#" title="">Jassica William</a> Comment on your project.</h3>
-							  					<span>2 min ago</span>
-							  				</div><!--notification-info -->
-						  				</div>
-						  				<div class="notfication-details">
-							  				<div class="noty-user-img">
-							  					<img src="{{ url('assets/images/resources/ny-img2.png') }}" alt="">
-							  				</div>
-							  				<div class="notification-info">
-							  					<h3><a href="#" title="">Jassica William</a> Comment on your project.</h3>
-							  					<span>2 min ago</span>
-							  				</div><!--notification-info -->
-						  				</div>
-						  				<div class="notfication-details">
-							  				<div class="noty-user-img">
-							  					<img src="{{ url('assets/images/resources/ny-img3.png') }}" alt="">
-							  				</div>
-							  				<div class="notification-info">
-							  					<h3><a href="#" title="">Jassica William</a> Comment on your project.</h3>
-							  					<span>2 min ago</span>
-							  				</div><!--notification-info -->
-						  				</div>
-						  				<div class="notfication-details">
-							  				<div class="noty-user-img">
-							  					<img src="{{ url('assets/images/resources/ny-img2.png') }}" alt="">
-							  				</div>
-							  				<div class="notification-info">
-							  					<h3><a href="#" title="">Jassica William</a> Comment on your project.</h3>
-							  					<span>2 min ago</span>
-							  				</div><!--notification-info -->
-						  				</div>
-						  				<div class="view-all-nots">
-						  					<a href="#" title="">View All Notification</a>
-						  				</div>
-									</div><!--nott-list end-->
-								</div><!--notification-box end-->
 							</li>
 						</ul>
 					</nav><!--nav end-->

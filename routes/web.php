@@ -15,29 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::get('/app', function () {
-    return view('test');
-});
 
-Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
+//Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
+Route::get('search-all', 'App\Http\Controllers\SearchController@searchAll');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix' => 'users'], function () {
-    Route::get('/{all}/user', 'App\Http\Controllers\UserController@getUsers');
-    Route::get('/{id}', 'App\Http\Controllers\UserController@show');
-    Route::get('/', 'App\Http\Controllers\UserController@index');
 
-    Route::delete('/{id}', 'App\Http\Controllers\UserController@destroy')->where('user', '[0-9]+');
-    Route::match(['post', 'put'], '/{id}', 'App\Http\Controllers\UserController@update');
-});
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/{all}/user', 'App\Http\Controllers\UserController@getUsers');
+        Route::get('/{id}', 'App\Http\Controllers\UserController@show');
+        Route::get('/', 'App\Http\Controllers\UserController@index');
+
+        Route::delete('/{id}', 'App\Http\Controllers\UserController@destroy')->where('user', '[0-9]+');
+        Route::match(['post', 'put'], '/{id}', 'App\Http\Controllers\UserController@update');
+    });
+
     Route::name('tourisme')->namespace('')->prefix('/tourisme')->group(function (){
         Route::name('categorie.')->namespace('')->prefix('/categorie')->group(function (){
             Route::get('/list-categorie', 'App\Http\Controllers\CategorieController@index')->name('categorie-list');

@@ -21,7 +21,7 @@
                                         </div>
                                     </div><!--username-dt end-->
                                     <div class="user-specs">
-                                        <h3>{{Auth::user()->nom.' '.Auth::user()->prenom}}</h3>
+                                        <h3>{{Auth::user()->prenom.' '.Auth::user()->nom}}</h3>
                                         <span>Guide touristique à l'ouest Cameroun</span>
                                     </div>
                                 </div><!--user-profile end-->
@@ -105,7 +105,7 @@
                                                 <div class="usy-dt">
                                                     <img src="{{url($site->poster_profile)}}" style="width: 40px; height: 40px;" alt="">
                                                     <div class="usy-name">
-                                                        <h3>{{$site->poster_name.' '.$site->poster_pname}}</h3>
+                                                        <h3>{{$site->poster_pname.' '.$site->poster_name}}</h3>
                                                         <span><i class="fa fa-clock-o"> {{$site->created_at->diffForHumans()}}</i></span>
                                                     </div>
                                                 </div>
