@@ -32,7 +32,7 @@ class HomeController extends Controller
             'users.*'
         )
         ->latest()
-        ->limit(10)
+        ->limit(6)
         ->get();
 
         $Commentaires = Commentaire::select(
@@ -53,13 +53,26 @@ class HomeController extends Controller
             'sites.*',
             'users.id AS uid',
             'users.nom AS poster_name',
-            'users.profile AS poster_profile'
+            'users.prenom AS poster_pname',
+            'users.email AS poster_mail',
+            'users.profile AS poster_profile',
+            'villes.nom AS ville'
         )
-        ->join('users', 'sites.user_id', '=', 'users.id')
+        ->join(
+            'users',
+            'sites.user_id','=', 'users.id'
+        )->join(
+            'villes',
+            'sites.ville_id', '=', 'villes.id'
+        )
         ->latest()
         ->get();
 
-        return view('home', ['users' => $Users,'commentaire' => $nbCommentaires,
-         'note' => $nbNotes, 'sites' => $sites]);
+        return view('home', [
+            'users' => $Users,
+            'commentaire' => $nbCommentaires,
+            'note' => $nbNotes,
+            'sites' => $sites
+        ]);
     }
 }

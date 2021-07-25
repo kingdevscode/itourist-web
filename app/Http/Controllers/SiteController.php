@@ -113,7 +113,7 @@ class SiteController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'images' => 'required|mimes:,jpeg',
+            'images' => 'required|mimes:jpg,png,jpeg',
             'categorie_id' => 'required|numeric',
             'ville_id' => 'required|numeric',
             'user_id' => 'required|numeric'

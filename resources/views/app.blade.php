@@ -42,7 +42,7 @@
 					<nav>
 						<ul>
 							<li>
-								<a href="index.html" title="">
+								<a href="{{url('/home')}}" title="">
 									<span><img src="{{ url('assets/images/icon1.png') }}" alt=""></span>
 									Home
 								</a>

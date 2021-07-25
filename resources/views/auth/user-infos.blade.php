@@ -113,7 +113,7 @@
                                                 </a>
                                             </li>
                                             <li data-tab="saved-jobs">
-                                                <a href="#" title="">
+                                                <a href="#avis" title="">
                                                     <img src="images/ic4.png" alt="">
                                                     <span>Avis</span>
                                                 </a>
@@ -228,7 +228,12 @@
                                                                     <img src="{{url($commentaire->profile)}}" style="width: 40px; height: 40px;" alt="">
                                                                 </div>
                                                                 <div class="comment">
+                                                                    @if ($commentaire->uid == Auth::id())
+                                                                    <h3>Moi</h3>
+                                                                    @else
                                                                     <h3>{{$commentaire->user}}</h3>
+                                                                    @endif
+
                                                                     <span><img src="images/clock.png" alt="">{{$commentaire->created_at->diffForHumans()}}</span>
                                                                     <p>{{$commentaire->texte}}</p>
                                                                     <a href="#" title=""><i class="fa fa-reply-all"></i>Repondre</a>
@@ -245,7 +250,7 @@
                                                 <div class="comment_box">
                                                     <form method="POST" action="{{ url('tourisme/commentaire/add-commentaire/'.$user->id) }}" enctype="multipart/form-data">
                                                         @csrf
-                                                        <input type="text" name="texte" minlength="1" placeholder="Laisser un commentaire">
+                                                        <input type="text" name="texte" minlength="1" style="color:#222;" placeholder="Laisser un commentaire">
                                                         <button type="submit"><i class="fa fa-send"></i></button>
                                                     </form>
                                                 </div>
@@ -503,12 +508,17 @@
                                 </div><!--product-feed-tab end-->
                                 <div class="product-feed-tab" id="portfolio-dd">
                                     <div class="portfolio-gallery-sec">
+                                        @if ($user->id == Auth::id())
                                         <h3>Mes sites touristiques</h3>
                                         <p class="col ">
                                             <button class="btn btn-danger " data-toggle="modal" data-target="#modelId">
                                                 <i class="fa fa-plus "></i>
                                             </button>
                                         </p>
+                                        @else
+                                        <h3>Sites touristiques</h3>
+                                        @endif
+
                                         <div class="gallery_pf">
                                             <div class="row">
 
@@ -517,12 +527,21 @@
                                                         <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                             <div class="gallery_pt">
                                                                 <img src="{{url($site->images)}}" alt="">
-                                                                <a href="#" title=""><i class="fa fa-open"></i></a>
+                                                                @if ($user->id == Auth::id())
+                                                                    <a href="{{url('tourisme/site/edit-site/'.$site->id)}}" title="" style="transform: scale(2); color: #fff;"><i class="fa fa-edit"></i></a>
+                                                                @else
+                                                                    <a href="{{url('tourisme/site/show-site/'.$site->id)}}" title="" style="transform: scale(2); color: #fff;"><i class="fa fa-eye"></i></a>
+                                                                @endif
                                                             </div><!--gallery_pt end-->
                                                         </div>
                                                     @endforeach
                                                 @else
-                                                    <p class="d-flex align-items-center justify-content-center text-muted">Vous n'avez aucun site... ajoutez en</p>
+                                                        @if ($user->id == Auth::id())
+                                                            <p class="d-flex align-items-center justify-content-center text-muted">Vous n'avez aucun site... ajoutez en</p>
+                                                        @else
+                                                            <p class="d-flex align-items-center justify-content-center text-muted">Ce guide n'a ajouter aucun site</p>
+                                                        @endif
+
                                                 @endif
 
                                             </div>
@@ -681,6 +700,9 @@
 
 @endsection
 
+
+@if ($user->id == Auth::id())
+
 <!-- Modal -->
 <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
@@ -692,13 +714,74 @@
                     </button>
             </div>
             <div class="modal-body">
-                <form action="tourisme/site/add-site" method="post" enctype="multipart/form-data">
+                <form action="{{url('tourisme/site/add-site')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="container col-lg-12 pb-3">
+                            <label for="nom" class="font-weight-bold pb-1">Nom:</label>
+                            <input type="text" class="form-control @error('nom') is-invalid @enderror" name="nom" id="nom" placeholder="nom de l'article">
+                            @error('nom')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Nom requis</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="desc" class="font-weight-bold pb-1">description:</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="desc" placeholder="description de l'article"></textarea>
+                            @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Description requise</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="img" class="font-weight-bold pb-1">Image:</label>
+                            <input type="file" name="images" class="form-control @error('images') is-invalid @enderror"  id="img">
+                            @error('images')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Image requise</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="cat" class="font-weight-bold pb-1">Categorie:</label>
+                            <select name="categorie_id" class="form-control @error('categorie_id') is-invalid @enderror" id="cat">
+                                <option value="">--selectionner une categorie--</option>
+                                @foreach ($cat_site as $cats)
+                                    <option value="{{ $cats->id }}">{{ $cats->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('categorie_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>selectionner une categorie pour ce site</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="vil" class="font-weight-bold pb-1">Ville:</label>
+                            <select name="ville_id" class="form-control @error('ville_id') is-invalid @enderror" id="vil">
+                                <option value="">--selectionner la ville--</option>
+                                @foreach ($allVille as $vil)
+                                    <option value="{{ $vil->id }}">{{ $vil->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('ville_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>selectionner une ville pour ce site</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-primary">Enregistere</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+@endif
+

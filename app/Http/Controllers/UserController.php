@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use App\Models\Commentaire;
 use App\Models\Note;
 use App\Models\Site;
 use App\Models\User;
+use App\Models\Ville;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -130,6 +132,7 @@ class UserController extends Controller
 
         $Commentaires = Commentaire::select(
             'commentaires.*',
+            'users.id AS uid',
             'users.profile AS profile',
             'users.nom AS user',
             'users.email AS email'
@@ -157,7 +160,7 @@ class UserController extends Controller
 
         $sites = Site::select(
             'sites.*'
-        )->where('sites.user_id', '=', Auth::id())
+        )->where('sites.user_id', '=', $id)
         ->get();
 
         $Users = User::select(
@@ -167,14 +170,35 @@ class UserController extends Controller
         ->limit(10)
         ->get();
 
+        $categorieSite = Categorie::select(
+            'categoris.*'
+        )->whereNotNull('site')
+        ->get();
+
+        $categorieArt = Categorie::select(
+            'categoris.*'
+        )->whereNotNull('article')
+        ->get();
+
+        $categorieLog = Categorie::select(
+            'categoris.*'
+        )->whereNotNull('logement')
+        ->get();
+
+        $allVille = Ville::all();
+
         return view('auth.user-infos', [
-            'user' => $User,
-            'users' => $Users,
-            'commentaires' => $Commentaires,
+            'user' => $User, // retoune le user dont on est sur le profile
+            'users' => $Users, // retourne les 10 plus recent user dans la table users
+            'commentaires' => $Commentaires, // retourne les commentaires(indexés) sur le user du profile en cours
             'nbCommentaires' => $nbCommentaires,
-            'notes' => $Notes,
+            'notes' => $Notes,  // les notes du user du profile en cours
             'nbNotes' => $nbNotes,
-            'sites' => $sites,
+            'sites' => $sites, // les sites mis en ligne par le user du profile en cours s'il est guide
+            'cat_site' => $categorieSite, //categorie de site
+            'cat_art' => $categorieArt, //categorie d'article'
+            'cat_log' => $categorieLog, //categorie de logement
+            'allVille' => $allVille //toutes les villes de la bdd
         ]);
     }
 }

@@ -21,7 +21,7 @@
                                         </div>
                                     </div><!--username-dt end-->
                                     <div class="user-specs">
-                                        <h3>{{Auth::user()->nom}}</h3>
+                                        <h3>{{Auth::user()->nom.' '.Auth::user()->prenom}}</h3>
                                         <span>Guide touristique à l'ouest Cameroun</span>
                                     </div>
                                 </div><!--user-profile end-->
@@ -48,6 +48,9 @@
 
                                     @if ($users)
                                         @foreach ($users as $user)
+                                            @if ($user->id == Auth::id())
+
+                                            @else
                                             <div class="suggestion-usd">
                                                 <img src="{{ url($user->profile) }}" style="width: 40px;" alt="">
                                                 <div class="sgt-text">
@@ -56,6 +59,8 @@
                                                 </div>
                                                 <span><a href="{{url('users/'. $user->id)}}"><i class="la la-plus"></i></a></span>
                                             </div>
+                                            @endif
+
                                         @endforeach
                                     @else
 
@@ -79,7 +84,7 @@
                                 </ul>
                                 <div class="cp-sec">
                                     <img src="images/logo2.png" alt="">
-                                    <p><img src="images/cp.png" alt="">Copyright 2018</p>
+                                    <p><img src="images/cp.png" alt="">Copyright 2021</p>
                                 </div>
                             </div><!--tags-sec end-->
                         </div><!--main-left-sidebar end-->
@@ -106,7 +111,7 @@
                                                 <div class="usy-dt">
                                                     <img src="{{url($site->poster_profile)}}" style="width: 40px; height: 40px;" alt="">
                                                     <div class="usy-name">
-                                                        <h3>{{$site->poster_name}}</h3>
+                                                        <h3>{{$site->poster_name.' '.$site->poster_pname}}</h3>
                                                         <span><img src="images/clock.png" alt="">{{$site->created_at->diffForHumans()}}</span>
                                                     </div>
                                                 </div>
@@ -123,40 +128,28 @@
                                                 </div>
                                             </div>
                                             <div class="epi-sec">
-                                                <ul class="descp">
-                                                    <li><img src="images/icon8.png" alt=""><span>Epic Coder</span></li>
-                                                    <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                                </ul>
                                                 <ul class="bk-links">
-                                                    <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                    <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
+                                                    <li><a href="mailto:{{$site->poster_mail}}" title=""><i class="la la-envelope"></i></a></li>
                                                 </ul>
                                             </div>
                                             <div class="job_descp">
-                                                <h3>Titre du post</h3>
+                                                <h3>{{$site->nom}}</h3>
                                                 <ul class="job-dt">
-                                                    <li><a href="#" title="">Full Time</a></li>
-                                                    <li><span>$30 / hr</span></li>
+                                                    <li><a href="#" title=""><i class="fa fa-map-marker"> </i>{{$site->ville}}</a></li>
                                                 </ul>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                                <ul class="skill-tags">
-                                                    <li><a href="#" title="">HTML</a></li>
-                                                    <li><a href="#" title="">PHP</a></li>
-                                                    <li><a href="#" title="">CSS</a></li>
-                                                    <li><a href="#" title="">Javascript</a></li>
-                                                    <li><a href="#" title="">Wordpress</a></li>
-                                                </ul>
+                                                <div class="img-responsive" style="width: 100%; height:250px; overflow: hidden;">
+                                                    <img class="img-responsive" style="width: 100%;" src="{{url($site->images)}}" alt="" srcset="">
+                                                </div>
+                                                <p>{{ $site->description }}... <a href="#" title="">view more</a></p>
                                             </div>
                                             <div class="job-status-bar">
                                                 <ul class="like-com">
                                                     <li>
                                                         <a href="#"><i class="la la-heart"></i> Like</a>
                                                         <img src="images/liked-img.png" alt="">
-                                                        <span>25</span>
                                                     </li>
-                                                    <li><a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a></li>
                                                 </ul>
-                                                <a><i class="la la-eye"></i>Views 50</a>
+                                                <a href="{{ url('users/'.$site->uid.'#avis') }}" title="" class="com"><img src="images/com.png" alt=""> Comment</a>
                                             </div>
                                         </div><!--post-bar end-->
                                     </div><!--posts-section end-->
@@ -187,19 +180,10 @@
                             </div><!--widget-about end-->
                             <div class="widget widget-jobs">
                                 <div class="sd-title">
-                                    <h3>Top Jobs</h3>
+                                    <h3>Top 5 Guides</h3>
                                     <i class="la la-ellipsis-v"></i>
                                 </div>
                                 <div class="jobs-list">
-                                    <div class="job-info">
-                                        <div class="job-details">
-                                            <h3>Senior Product Designer</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p>
-                                        </div>
-                                        <div class="hr-rate">
-                                            <span>$25/hr</span>
-                                        </div>
-                                    </div><!--job-info end-->
                                     <div class="job-info">
                                         <div class="job-details">
                                             <h3>Senior UI / UX Designer</h3>
