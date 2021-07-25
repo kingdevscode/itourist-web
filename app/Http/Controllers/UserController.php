@@ -131,8 +131,11 @@ class UserController extends Controller
             'users.profile AS profile',
             'users.nom AS user'
         )
-            ->join('users', 'commentaires.speaker_id', '=', 'users.id')
-            ->where('users.id', '=', $id)
+            ->join('users', 'commentaires.user_id', '=', 'users.id')
+            ->whereIn("commentaires.id", Commentaire::select(
+                'commentaires.id',
+            )
+                ->where('commentaires.speaker_id', '=', $id))
             ->orderByDesc('created_at')
             ->get();
             $nbCommentaires = $Commentaires->count();
@@ -143,11 +146,14 @@ class UserController extends Controller
             'users.nom AS user',
             'users.bio AS bio'
         )
-            ->join('users', 'notes.marker_id', '=', 'users.id')
-            ->where('users.id', '=', $id)
-            ->orderByDesc('created_at')
-            ->get();
-            $nbNotes = $Notes->count();
+        ->join('users', 'notes.user_id', '=', 'users.id')
+        ->whereIn("notes.id", Note::select(
+            'notes.id',
+        )
+            ->where('notes.marker_id', '=', $id))
+        ->orderByDesc('created_at')
+        ->get();
+        $nbNotes = $Notes->count();
 
         return view('auth.user-infos', ['user' => $User, 'commentaires' => $Commentaires,
         'nbCommentaires' => $nbCommentaires, 'notes' => $Notes, 'nbNotes' => $nbNotes]);

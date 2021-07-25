@@ -144,7 +144,6 @@
                                     @endif
                                     <div class="user-profile-ov">
                                         <h3><a href="#" title="" class="emp-open">Membre depuis</a> </h3>
-                                        {{-- <span>{{$user->created_at->diffForHumans()}}</span> --}}
                                         <span>{{$user->created_at->format('D, d M Y')}}</span>
                                     </div><!--user-profile-ov end-->
                                 </div>
