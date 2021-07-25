@@ -1,17 +1,16 @@
 @extends('layouts.app')
 @extends('app')
+
 @section('content')
-    <section class="cover-sec">
-        {{-- <img src="http://via.placeholder.com/1600x400" alt=""> --}}
-        <img src="{{url($user->couverture)}}"
-                                            style="
-                                            width: 1600px;
-                                            height: 300px;
-                                            padding-top: 0%;
-                                            " alt="photo de couverture">
-        <a href="#" title="" style="right: 90.5px;"><i class="fa fa-camera"></i>modifier</a>
-    </section>
-    <main>
+        <section class="cover-sec">
+            {{-- <img src="http://via.placeholder.com/1600x400" alt=""> --}}
+            <img src="{{url($user->couverture)}}"
+                                                style="
+                                                width: 1600px;
+                                                height: 300px;
+                                                " alt="photo de couverture">
+            <a href="#" title="" style="right: 90.5px;"><i class="fa fa-camera"></i>modifier</a>
+        </section>
         <div class="main-section">
             <div class="container">
                 <div class="main-section-data">
@@ -40,17 +39,16 @@
                                                     @endif
                                                 </ul>
                                             @endif
-                                            <br><br><br>
-                                            <li>
-                                                <a href="#"><i class="la la-heart"></i>J'aime</a>
-                                                <img src="images/liked-img.png" alt="">
-                                                <span class="ml-1">{{$nbNotes}}</span>
-                                            </li>
-                                            <li>
-                                                <a href="#" title="" class="com"><i class="fa fa-comment">Commentaires</i></a>
-                                                <img src="images/com.png" alt="">
-                                                <span class="ml-1">{{$nbCommentaires}}</span>
-                                            </li>
+                                            <ul class="user-fw-status">
+                                                <li>
+                                                    <h4>J'aime</h4>
+                                                    <span>{{$nbNotes}}</span>
+                                                </li>
+                                                <li>
+                                                    <h4>Commentaire</h4>
+                                                    <span>{{$nbCommentaires}}</span>
+                                                </li>
+                                            </ul>
                                         </ul>
                                     </div><!--user_pro_status end-->
                                 </div><!--user_profile end-->
@@ -60,57 +58,28 @@
                                         <i class="la la-ellipsis-v"></i>
                                     </div><!--sd-title end-->
                                     <div class="suggestions-list">
-                                        <div class="suggestion-usd">
-                                            <img src="http://via.placeholder.com/35x35" alt="">
-                                            <div class="sgt-text">
-                                                <h4>Jessica William</h4>
-                                                <span>Graphic Designer</span>
-                                            </div>
-                                            <span><i class="la la-plus"></i></span>
-                                        </div>
-                                        <div class="suggestion-usd">
-                                            <img src="http://via.placeholder.com/35x35" alt="">
-                                            <div class="sgt-text">
-                                                <h4>Joe doe</h4>
-                                                <span>PHP Developer</span>
-                                            </div>
-                                            <span><i class="la la-plus"></i></span>
-                                        </div>
-                                        <div class="suggestion-usd">
-                                            <img src="http://via.placeholder.com/35x35" alt="">
-                                            <div class="sgt-text">
-                                                <h4>Poonam</h4>
-                                                <span>Wordpress Developer</span>
-                                            </div>
-                                            <span><i class="la la-plus"></i></span>
-                                        </div>
-                                        <div class="suggestion-usd">
-                                            <img src="http://via.placeholder.com/35x35" alt="">
-                                            <div class="sgt-text">
-                                                <h4>Bill Gates</h4>
-                                                <span>C &amp; C++ Developer</span>
-                                            </div>
-                                            <span><i class="la la-plus"></i></span>
-                                        </div>
-                                        <div class="suggestion-usd">
-                                            <img src="http://via.placeholder.com/35x35" alt="">
-                                            <div class="sgt-text">
-                                                <h4>Jessica William</h4>
-                                                <span>Graphic Designer</span>
-                                            </div>
-                                            <span><i class="la la-plus"></i></span>
-                                        </div>
-                                        <div class="suggestion-usd">
-                                            <img src="http://via.placeholder.com/35x35" alt="">
-                                            <div class="sgt-text">
-                                                <h4>John Doe</h4>
-                                                <span>PHP Developer</span>
-                                            </div>
-                                            <span><i class="la la-plus"></i></span>
-                                        </div>
-                                        <div class="view-more">
-                                            <a href="#" title="">View More</a>
-                                        </div>
+                                        @if ($users)
+                                        @foreach ($users as $item)
+                                            @if ($item->id == Auth::id())
+                                                {{-- s'il s'agit de l'utilisateur connecté on ne l'affiche pas --}}
+                                            @else
+                                                <div class="suggestion-usd">
+                                                    <img src="{{ url($item->profile) }}" style="width: 40px;" alt="">
+                                                    <div class="sgt-text">
+                                                        <h4>{{$item->prenom.' '.$item->nom}}</h4>
+                                                        <span>Guide touristique</span>
+                                                    </div>
+                                                    <span><a href="{{url('users/'. $item->id)}}"><i class="la la-plus"></i></a></span>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @else
+
+                                    @endif
+
+                                    <div class="view-more">
+                                        <a href="#" title="">View More</a>
+                                    </div>
                                     </div><!--suggestions-list end-->
                                 </div><!--suggestions end-->
                             </div><!--main-left-sidebar end-->
@@ -120,7 +89,7 @@
                                 <div class="user-tab-sec">
                                     <h3>{{($user->prenom." ".$user->nom)}}</h3>
                                     <div class="star-descp">
-                                        <span>Graphic Designer at Self Employed</span>
+                                        <span>Guide touristique</span>
                                         <ul>
                                             <li><i class="fa fa-star"></i></li>
                                             <li><i class="fa fa-star"></i></li>
@@ -534,69 +503,28 @@
                                 </div><!--product-feed-tab end-->
                                 <div class="product-feed-tab" id="portfolio-dd">
                                     <div class="portfolio-gallery-sec">
-                                        <h3>Portfolio</h3>
+                                        <h3>Mes sites touristiques</h3>
+                                        <p class="col ">
+                                            <button class="btn btn-danger " data-toggle="modal" data-target="#modelId">
+                                                <i class="fa fa-plus "></i>
+                                            </button>
+                                        </p>
                                         <div class="gallery_pf">
                                             <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/271x174" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="images/all-out.png" alt=""></a>
-                                                    </div><!--gallery_pt end-->
-                                                </div>
+
+                                                @if (isset($sites) && $sites->count() > 0)
+                                                    @foreach ($sites as $site)
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                            <div class="gallery_pt">
+                                                                <img src="{{url($site->images)}}" alt="">
+                                                                <a href="#" title=""><i class="fa fa-open"></i></a>
+                                                            </div><!--gallery_pt end-->
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <p class="d-flex align-items-center justify-content-center text-muted">Vous n'avez aucun site... ajoutez en</p>
+                                                @endif
+
                                             </div>
                                         </div><!--gallery_pf end-->
                                     </div><!--portfolio-gallery-sec end-->
@@ -732,7 +660,6 @@
                 </div><!-- main-section-data end-->
             </div>
         </div>
-    </main>
     <footer>
         <div class="footy-sec mn no-margin">
             <div class="container">
@@ -753,3 +680,25 @@
     </footer>
 
 @endsection
+
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form action="tourisme/site/add-site" method="post" enctype="multipart/form-data">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
 use App\Models\Note;
+use App\Models\Site;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
@@ -142,15 +143,38 @@ class UserController extends Controller
         $Notes = Note::select(
             'notes.*',
             'users.profile AS profile',
-            'users.nom AS user'
+            'users.nom AS user',
+            'users.bio AS bio'
         )
-            ->join('users', 'notes.marker_id', '=', 'users.id')
-            ->where('users.id', '=', $id)
-            ->orderByDesc('created_at')
-            ->get();
-            $nbNotes = $Notes->count();
+        ->join('users', 'notes.user_id', '=', 'users.id')
+        ->whereIn("notes.id", Note::select(
+            'notes.id',
+        )
+            ->where('notes.marker_id', '=', $id))
+        ->orderByDesc('created_at')
+        ->get();
+        $nbNotes = $Notes->count();
 
-        return view('auth.user-infos', ['user' => $User, 'commentaires' => $Commentaires,
-        'nbCommentaires' => $nbCommentaires, 'nbNotes' => $nbNotes]);
+        $sites = Site::select(
+            'sites.*'
+        )->where('sites.user_id', '=', Auth::id())
+        ->get();
+
+        $Users = User::select(
+            'users.*'
+        )
+        ->latest()
+        ->limit(10)
+        ->get();
+
+        return view('auth.user-infos', [
+            'user' => $User,
+            'users' => $Users,
+            'commentaires' => $Commentaires,
+            'nbCommentaires' => $nbCommentaires,
+            'notes' => $Notes,
+            'nbNotes' => $nbNotes,
+            'sites' => $sites,
+        ]);
     }
 }
