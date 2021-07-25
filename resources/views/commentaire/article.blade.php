@@ -45,7 +45,7 @@
                                     <i class="la la-ellipsis-v"></i>
                                 </div><!--sd-title end-->
                                 <div class="suggestions-list">
-
+                                    {{-- verifier commentaireArticleController --}}
                                     @if ($users)
                                         @foreach ($users as $user)
                                             @if ($user->id == Auth::id())
@@ -91,22 +91,16 @@
                     </div>
                     <div class="col-lg-6 col-md-8 no-pd">
                         <div class="main-ws-sec">
-                            <div class="post-topbar">
-                                <div class="user-picy">
-                                    Sites Touristiques
-                                </div>
-                            </div><!--post-topbar end-->
-                            @if ($sites->count() > 0)
-                                @foreach ($sites as $site)
+                            @if ($article)
                                     <div class="posts-section">
                                         <div class="post-bar">
                                             <div class="post_topbar">
-                                                <a href="{{url('users/'. $site->uid)}}" title="">
+                                                <a href="{{url('users/'. $article->uid)}}" title="">
                                                 <div class="usy-dt">
-                                                    <img src="{{url($site->poster_profile)}}" style="width: 40px; height: 40px;" alt="">
+                                                    <img src="{{url($article->poster_profile)}}" style="width: 40px; height: 40px;" alt="">
                                                     <div class="usy-name">
-                                                        <h3>{{$site->poster_name.' '.$site->poster_pname}}</h3>
-                                                        <span><i class="fa fa-clock-o"> {{$site->created_at->diffForHumans()}}</i></span>
+                                                        <h3>{{$article->poster_name.' '.$article->poster_pname}}</h3>
+                                                        <span><img src="images/clock.png" alt="">{{$article->created_at->diffForHumans()}}</span>
                                                     </div>
                                                 </div>
                                                 </a>
@@ -123,18 +117,18 @@
                                             </div>
                                             <div class="epi-sec">
                                                 <ul class="bk-links">
-                                                    <li><a href="mailto:{{$site->poster_mail}}" title=""><i class="la la-envelope"></i></a></li>
+                                                    <li><a href="mailto:{{$article->poster_mail}}" title=""><i class="la la-envelope"></i></a></li>
                                                 </ul>
                                             </div>
                                             <div class="job_descp">
-                                                <h3>{{$site->nom}}</h3>
+                                                <h3>{{$article->nom}}</h3>
                                                 <ul class="job-dt">
-                                                    <li><a href="#" title=""><i class="fa fa-map-marker"> </i>{{$site->ville}}</a></li>
+                                                    <li><a href="#" title=""><i class="fa fa-map-marker"> </i>{{$article->ville}}</a></li>
                                                 </ul>
                                                 <div class="img-responsive" style="width: 100%; height:250px; overflow: hidden;">
-                                                    <img class="img-responsive" style="width: 100%;" src="{{url($site->images)}}" alt="" srcset="">
+                                                    <img class="img-responsive" style="width: 100%;" src="{{url($article->images)}}" alt="" srcset="">
                                                 </div>
-                                                <p>{{ $site->description }}... <a href="#" title="">view more</a></p>
+                                                <p>{{ $article->description }}... <a href="#" title="">view more</a></p>
                                             </div>
                                             <div class="job-status-bar">
                                                 <ul class="like-com">
@@ -143,11 +137,22 @@
                                                         <img src="images/liked-img.png" alt="">
                                                     </li>
                                                 </ul>
-                                                <a href="{{ url('users/'.$site->uid.'#avis') }}" title="" class="com"><img src="images/com.png" alt=""> Comment</a>
+                                            </div>
+
+                                            <div class="post-comment">
+                                                <div class="cm_img">
+                                                    <img src="{{url(Auth::user()->profile)}}" style="width: 40px; height: 40px;" alt="">
+                                                </div>
+                                                <div class="comment_box">
+                                                    <form method="POST" action="{{ url('tourisme/commentaire/add-commentaire-article/'.$article->id) }}" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="text" name="texte" minlength="1" style="color:#222;" placeholder="Laisser un commentaire">
+                                                        <button type="submit"><i class="fa fa-send"></i></button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div><!--post-bar end-->
                                     </div><!--posts-section end-->
-                                @endforeach
                             @else
                                 <div class="posts-section">
                                     <div class="post-bar">
@@ -164,59 +169,56 @@
                     <div class="col-lg-3 pd-right-none no-pd">
                         <div class="right-sidebar">
                             <div class="widget widget-about">
-                                <img src="{{url('assets/images/logon.png')}}" width="150" alt="">
-                                <h3> I-tourist</h3>
-                                <span>Le tourisme à porter de main</span>
+                                <img src="images/wd-logo.png" alt="">
+                                <h3>Track Time on Workwise</h3>
+                                <span>Pay only for the Hours worked</span>
                                 <div class="sign_link">
-
-                                    <a href="#" title="">En savoir plus</a>
+                                    <h3><a href="#" title="">Sign up</a></h3>
+                                    <a href="#" title="">Learn More</a>
                                 </div>
                             </div><!--widget-about end-->
-                            <div class="widget suggestions full-width">
-                                <div class="sd-title">
-                                    <h3>Vitrine souvenir</h3>
-                                    <i class="la la-ellipsis-v"></i>
-                                </div><!--sd-title end-->
-                                <div class="suggestions-list">
-
-                                    @if ($articles && $articles->count() > 0)
-                                        @foreach ($articles as $article)
-                                            <div class="suggestion-usd">
-                                                <img src=" {{ url($article->images) }}" style="width: 40px;" alt="">
-                                                <div class="sgt-text">
-                                                    <h4>{{ $article->nom }}</h4>
-                                                    <span>Estimer à: {{ $article->estimation }} XFA</span>
-                                                </div>
-                                                <span><i class="la la-eye"></i></span>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                            <span class="invalid-feedback">!Pas d'article pour le moment</span>
-                                    @endif
-                                    <div class="view-more">
-                                        <a href="#" title="">View More</a>
-                                    </div>
-                                </div><!--suggestions-list end-->
-                            </div>
                             <div class="widget widget-jobs">
                                 <div class="sd-title">
-                                    <h3>Top 5 des Guides</h3>
+                                    <h3>Top 5 Guides</h3>
                                     <i class="la la-ellipsis-v"></i>
                                 </div>
                                 <div class="jobs-list">
-
-                                    @foreach ($users as $us)
-                                        <div class="job-info">
-                                            <div class="job-details">
-                                                <h3> {{$us->prenom.' '.$us->nom}} </h3>
-                                                <p> {{$us->bio}} </p>
-                                            </div>
-                                            <div class="hr-rate">
-                                                <span class="text-xs text-muted">suivre</span>
-                                            </div>
-                                        </div><!--job-info end-->
-                                    @endforeach
-
+                                    <div class="job-info">
+                                        <div class="job-details">
+                                            <h3>Senior UI / UX Designer</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p>
+                                        </div>
+                                        <div class="hr-rate">
+                                            <span>$25/hr</span>
+                                        </div>
+                                    </div><!--job-info end-->
+                                    <div class="job-info">
+                                        <div class="job-details">
+                                            <h3>Junior Seo Designer</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p>
+                                        </div>
+                                        <div class="hr-rate">
+                                            <span>$25/hr</span>
+                                        </div>
+                                    </div><!--job-info end-->
+                                    <div class="job-info">
+                                        <div class="job-details">
+                                            <h3>Senior PHP Designer</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p>
+                                        </div>
+                                        <div class="hr-rate">
+                                            <span>$25/hr</span>
+                                        </div>
+                                    </div><!--job-info end-->
+                                    <div class="job-info">
+                                        <div class="job-details">
+                                            <h3>Senior Developer Designer</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p>
+                                        </div>
+                                        <div class="hr-rate">
+                                            <span>$25/hr</span>
+                                        </div>
+                                    </div><!--job-info end-->
                                 </div><!--jobs-list end-->
                             </div><!--widget-jobs end-->
                             <div class="widget widget-jobs">
@@ -254,7 +256,65 @@
                                     </div><!--job-info end-->
                                 </div><!--jobs-list end-->
                             </div><!--widget-jobs end-->
-
+                            <div class="widget suggestions full-width">
+                                <div class="sd-title">
+                                    <h3>Most Viewed People</h3>
+                                    <i class="la la-ellipsis-v"></i>
+                                </div><!--sd-title end-->
+                                <div class="suggestions-list">
+                                    <div class="suggestion-usd">
+                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                        <div class="sgt-text">
+                                            <h4>Jessica William</h4>
+                                            <span>Graphic Designer</span>
+                                        </div>
+                                        <span><i class="la la-plus"></i></span>
+                                    </div>
+                                    <div class="suggestion-usd">
+                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                        <div class="sgt-text">
+                                            <h4>John Doe</h4>
+                                            <span>PHP Developer</span>
+                                        </div>
+                                        <span><i class="la la-plus"></i></span>
+                                    </div>
+                                    <div class="suggestion-usd">
+                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                        <div class="sgt-text">
+                                            <h4>Poonam</h4>
+                                            <span>Wordpress Developer</span>
+                                        </div>
+                                        <span><i class="la la-plus"></i></span>
+                                    </div>
+                                    <div class="suggestion-usd">
+                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                        <div class="sgt-text">
+                                            <h4>Bill Gates</h4>
+                                            <span>C &amp; C++ Developer</span>
+                                        </div>
+                                        <span><i class="la la-plus"></i></span>
+                                    </div>
+                                    <div class="suggestion-usd">
+                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                        <div class="sgt-text">
+                                            <h4>Jessica William</h4>
+                                            <span>Graphic Designer</span>
+                                        </div>
+                                        <span><i class="la la-plus"></i></span>
+                                    </div>
+                                    <div class="suggestion-usd">
+                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                        <div class="sgt-text">
+                                            <h4>John Doe</h4>
+                                            <span>PHP Developer</span>
+                                        </div>
+                                        <span><i class="la la-plus"></i></span>
+                                    </div>
+                                    <div class="view-more">
+                                        <a href="#" title="">View More</a>
+                                    </div>
+                                </div><!--suggestions-list end-->
+                            </div>
                         </div><!--right-sidebar end-->
                     </div>
                 </div>

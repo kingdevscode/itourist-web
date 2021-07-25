@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Categorie;
 use App\Models\Commentaire;
 use App\Models\Note;
@@ -163,6 +164,11 @@ class UserController extends Controller
         )->where('sites.user_id', '=', $id)
         ->get();
 
+        $article = Article::select(
+            'articles.*'
+        )->where('articles.user_id', '=', $id)
+        ->get();
+
         $Users = User::select(
             'users.*'
         )
@@ -195,6 +201,7 @@ class UserController extends Controller
             'notes' => $Notes,  // les notes du user du profile en cours
             'nbNotes' => $nbNotes,
             'sites' => $sites, // les sites mis en ligne par le user du profile en cours s'il est guide
+            'articles' => $article, // les articles mis en ligne par le user du profile en cours s'il est guide
             'cat_site' => $categorieSite, //categorie de site
             'cat_art' => $categorieArt, //categorie d'article'
             'cat_log' => $categorieLog, //categorie de logement

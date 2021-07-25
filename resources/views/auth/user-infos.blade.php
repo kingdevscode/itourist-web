@@ -6,10 +6,14 @@
             {{-- <img src="http://via.placeholder.com/1600x400" alt=""> --}}
             <img src="{{url($user->couverture)}}"
                                                 style="
-                                                width: 1600px;
+                                                width: 100%;
                                                 height: 300px;
                                                 " alt="photo de couverture">
-            <a href="#" title="" style="right: 90.5px;"><i class="fa fa-camera"></i>modifier</a>
+            @if ($user->id == Auth::id())
+               <a href="#" title="" style="right: 90.5px;"><i class="fa fa-camera"></i>modifier</a>
+            @endif
+
+
         </section>
         <div class="main-section">
             <div class="container">
@@ -26,7 +30,10 @@
                                             height: 200px;
                                             clip-path:ellipse(50% 50%);
                                             ">
-                                        <a href="#" title=""><i class="fa fa-camera"></i></a>
+                                            @if ($user->id == Auth::id())
+                                                <a href="#" title=""><i class="fa fa-camera"></i></a>
+                                            @endif
+
                                     </div><!--user-pro-img end-->
                                     <div class="user_pro_status">
                                         <ul class="flw-status">
@@ -124,28 +131,55 @@
                                                     <span>Articles</span>
                                                 </a>
                                             </li>
+                                            <li data-tab="payment-dd">
+                                                <a href="#" title="">
+                                                    <img src="images/ic5.png" alt="">
+                                                    <span>Logement</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div><!-- tab-feed end-->
                                 </div><!--user-tab-sec end-->
                                 <div class="product-feed-tab current animated fadeIn" id="info-dd">
                                    @if ($user['bio'])
                                         <div class="user-profile-ov">
-                                            <h3><a href="#" title="" class="overview-open">Bio</a> <a href="#" title="" class="overview-open"><i class="fa fa-pencil"></i></a></h3>
+                                            <h3>
+                                                <a href="#" title="" class="overview-open">Bio</a>
+                                                @if ($user->id == Auth::id())
+                                                    <a href="#" title="" class="overview-open"><i class="fa fa-pencil"></i></a>
+                                                @endif
+
+                                            </h3>
                                             <p>{{$user->bio}}</p>
                                         </div><!--user-profile-ov end-->
                                    @endif
 
                                     <div class="user-profile-ov st2">
-                                        <h3><a href="#" title="" class="esp-bx-open">Téléphone</a><a href="#" title="" class="esp-bx-open"><i class="fa fa-pencil"></i></a> <a href="#" title="" class="esp-bx-open"><i class="fa fa-plus-square"></i></a></h3>
+                                        <h3><a href="#" title="" class="esp-bx-open">Téléphone</a>
+                                            @if ($user->id == Auth::id())
+                                                <a href="#" title="" class="esp-bx-open"><i class="fa fa-pencil"></i></a> <a href="#" title="" class="esp-bx-open"><i class="fa fa-plus-square"></i></a>
+                                            @endif
+
+                                        </h3>
                                         <span>{{$user->tel}}</span>
                                     </div><!--user-profile-ov end-->
                                     <div class="user-profile-ov">
-                                        <h3><a href="#" title="" class="emp-open">Email</a> <a href="#" title="" class="emp-open"><i class="fa fa-pencil"></i></a> <a href="#" title="" class="emp-open"><i class="fa fa-plus-square"></i></a></h3>
+                                        <h3><a href="#" title="" class="emp-open">Email</a>
+                                            @if ($user->id == Auth::id())
+                                            <a href="#" title="" class="emp-open"><i class="fa fa-pencil"></i></a>
+                                            <a href="#" title="" class="emp-open"><i class="fa fa-plus-square"></i></a>
+                                            @endif
+                                        </h3>
                                         <span>{{$user->email}}</span>
                                     </div><!--user-profile-ov end-->
                                     @if ($user['ville'])
                                         <div class="user-profile-ov">
-                                            <h3><a href="#" title="" class="lct-box-open">Ville</a> <a href="#" title="" class="lct-box-open"><i class="fa fa-pencil"></i></a> <a href="#" title="" class="lct-box-open"><i class="fa fa-plus-square"></i></a></h3>
+                                            <h3><a href="#" title="" class="lct-box-open">Ville</a>
+                                                @if ($user->id == Auth::id())
+                                                <a href="#" title="" class="lct-box-open"><i class="fa fa-pencil"></i></a>
+                                                <a href="#" title="" class="lct-box-open"><i class="fa fa-plus-square"></i></a>
+                                                @endif
+                                            </h3>
                                             <p>{{$user->ville}}</p>
                                         </div><!--user-profile-ov end-->
                                     @endif
@@ -198,17 +232,22 @@
                                         <div class="post-bar no-margin">
                                             <div class="job-status-bar">
                                                 <ul class="like-com">
-                                                    <form method="POST" action="{{ url('tourisme/note/add-note/'.$user->id) }}" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <input type="hidden" name="note" value="1">
-                                                        <button type="submit">
-                                                           <li>
-                                                            <a><i class="la la-heart"></i>J'aime</a>
-                                                                <img src="images/liked-img.png" alt="">
-                                                                <span class="ml-1">{{$nbNotes}}</span>
-                                                            </li>
-                                                        </button>
-                                                    </form>
+
+                                                    @if ($user->id == Auth::id())
+
+                                                    @else
+                                                        <form method="POST" action="{{ url('tourisme/note/add-note/'.$user->id) }}" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <input type="hidden" name="note" value="1">
+                                                            <button type="submit">
+                                                            <li>
+                                                                <a><i class="la la-heart"></i>J'aime</a>
+                                                                    <img src="images/liked-img.png" alt="">
+                                                                    <span class="ml-1">{{$nbNotes}}</span>
+                                                                </li>
+                                                            </button>
+                                                        </form>
+                                                    @endif
 
                                                     <li>
                                                         <a href="#" title="" class="com"><i class="fa fa-comment">Commentaires</i></a>
@@ -258,253 +297,46 @@
                                         </div><!--comment-section end-->
                                     </div>
                                 <div class="product-feed-tab" id="my-bids">
-                                    <div class="posts-section">
-                                        <div class="post-bar">
-                                            <div class="post_topbar">
-                                                <div class="usy-dt">
-                                                    <img src="http://via.placeholder.com/50x50" alt="">
-                                                    <div class="usy-name">
-                                                        <h3>John Doe</h3>
-                                                        <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                    </div>
-                                                </div>
-                                                <div class="ed-opts">
-                                                    <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                    <ul class="ed-options">
-                                                        <li><a href="#" title="">Edit Post</a></li>
-                                                        <li><a href="#" title="">Unsaved</a></li>
-                                                        <li><a href="#" title="">Unbid</a></li>
-                                                        <li><a href="#" title="">Close</a></li>
-                                                        <li><a href="#" title="">Hide</a></li>
-                                                    </ul>
-                                                </div>
+                                    <div class="portfolio-gallery-sec">
+                                        @if ($user->id == Auth::id())
+                                        <h3>Mes articles</h3>
+                                        <p class="col ">
+                                            <button class="btn btn-danger " data-toggle="modal" data-target="#article">
+                                                <i class="fa fa-plus "></i>
+                                            </button>
+                                        </p>
+                                        @else
+                                        <h3>Articles</h3>
+                                        @endif
+
+                                        <div class="gallery_pf">
+                                            <div class="row">
+
+                                                @if (isset($articles) && $articles->count() > 0)
+                                                    @foreach ($articles as $article)
+                                                        <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                            <div class="gallery_pt">
+                                                                <img src="{{url($article->images)}}" alt="">
+                                                                @if ($user->id == Auth::id())
+                                                                    <a href="{{url('tourisme/article/edit-article/'.$article->id)}}" title="" style="transform: scale(2); color: #fff;"><i class="fa fa-edit"></i></a>
+                                                                @else
+                                                                    <a href="{{url('tourisme/article/show-article/'.$article->id)}}" title="" style="transform: scale(2); color: #fff;"><i class="fa fa-eye"></i></a>
+                                                                @endif
+                                                            </div><!--gallery_pt end-->
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                        @if ($user->id == Auth::id())
+                                                            <p class="d-flex align-items-center justify-content-center text-muted">Vous n'avez aucun article... ajoutez en</p>
+                                                        @else
+                                                            <p class="d-flex align-items-center justify-content-center text-muted">Ce guide n'a ajouter aucun article</p>
+                                                        @endif
+
+                                                @endif
+
                                             </div>
-                                            <div class="epi-sec">
-                                                <ul class="descp">
-                                                    <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                    <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                                </ul>
-                                                <ul class="bk-links">
-                                                    <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                    <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                    <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job_descp">
-                                                <h3>Simple Classified Site</h3>
-                                                <ul class="job-dt">
-                                                    <li><span>$300 - $350</span></li>
-                                                </ul>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                                <ul class="skill-tags">
-                                                    <li><a href="#" title="">HTML</a></li>
-                                                    <li><a href="#" title="">PHP</a></li>
-                                                    <li><a href="#" title="">CSS</a></li>
-                                                    <li><a href="#" title="">Javascript</a></li>
-                                                    <li><a href="#" title="">Wordpress</a></li>
-                                                    <li><a href="#" title="">Photoshop</a></li>
-                                                    <li><a href="#" title="">Illustrator</a></li>
-                                                    <li><a href="#" title="">Corel Draw</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job-status-bar">
-                                                <ul class="like-com">
-                                                    <li>
-                                                        <a href="#"><i class="la la-heart"></i> Like</a>
-                                                        <img src="images/liked-img.png" alt="">
-                                                        <span>25</span>
-                                                    </li>
-                                                    <li><a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a></li>
-                                                </ul>
-                                                <a><i class="la la-eye"></i>Views 50</a>
-                                            </div>
-                                        </div><!--post-bar end-->
-                                        <div class="post-bar">
-                                            <div class="post_topbar">
-                                                <div class="usy-dt">
-                                                    <img src="http://via.placeholder.com/50x50" alt="">
-                                                    <div class="usy-name">
-                                                        <h3>John Doe</h3>
-                                                        <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                    </div>
-                                                </div>
-                                                <div class="ed-opts">
-                                                    <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                    <ul class="ed-options">
-                                                        <li><a href="#" title="">Edit Post</a></li>
-                                                        <li><a href="#" title="">Unsaved</a></li>
-                                                        <li><a href="#" title="">Unbid</a></li>
-                                                        <li><a href="#" title="">Close</a></li>
-                                                        <li><a href="#" title="">Hide</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="epi-sec">
-                                                <ul class="descp">
-                                                    <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                    <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                                </ul>
-                                                <ul class="bk-links">
-                                                    <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                    <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                    <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job_descp">
-                                                <h3>Ios Shopping mobile app</h3>
-                                                <ul class="job-dt">
-                                                    <li><span>$300 - $350</span></li>
-                                                </ul>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                                <ul class="skill-tags">
-                                                    <li><a href="#" title="">HTML</a></li>
-                                                    <li><a href="#" title="">PHP</a></li>
-                                                    <li><a href="#" title="">CSS</a></li>
-                                                    <li><a href="#" title="">Javascript</a></li>
-                                                    <li><a href="#" title="">Wordpress</a></li>
-                                                    <li><a href="#" title="">Photoshop</a></li>
-                                                    <li><a href="#" title="">Illustrator</a></li>
-                                                    <li><a href="#" title="">Corel Draw<<a href="#"><i class="la la-heart"></i>J'aime</a>
-                                                        <img src="images/liked-img.png" alt="">
-                                                        <span class="ml-1">25</span>/a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job-status-bar">
-                                                <ul class="like-com">
-                                                    <li>
-                                                        <a href="#"><i class="la la-heart"></i> Like</a>
-                                                        <img src="images/liked-img.png" alt="">
-                                                        <span>25</span>
-                                                    </li>
-                                                    <li><a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a></li>
-                                                </ul>
-                                                <a><i class="la la-eye"></i>Views 50</a>
-                                            </div>
-                                        </div><!--post-bar end-->
-                                        <div class="post-bar">
-                                            <div class="post_topbar">
-                                                <div class="usy-dt">
-                                                    <img src="http://via.placeholder.com/50x50" alt="">
-                                                    <div class="usy-name">
-                                                        <h3>John Doe</h3>
-                                                        <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                    </div>
-                                                </div>
-                                                <div class="ed-opts">
-                                                    <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                    <ul class="ed-options">
-                                                        <li><a href="#" title="">Edit Post</a></li>
-                                                        <li><a href="#" title="">Unsaved</a></li>
-                                                        <li><a href="#" title="">Unbid</a></li>
-                                                        <li><a href="#" title="">Close</a></li>
-                                                        <li><a href="#" title="">Hide</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="epi-sec">
-                                                <ul class="descp">
-                                                    <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                    <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                                </ul>
-                                                <ul class="bk-links">
-                                                    <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                    <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                    <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job_descp">
-                                                <h3>Simple Classified Site</h3>
-                                                <ul class="job-dt">
-                                                    <li><span>$300 - $350</span></li>
-                                                </ul>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                                <ul class="skill-tags">
-                                                    <li><a href="#" title="">HTML</a></li>
-                                                    <li><a href="#" title="">PHP</a></li>
-                                                    <li><a href="#" title="">CSS</a></li>
-                                                    <li><a href="#" title="">Javascript</a></li>
-                                                    <li><a href="#" title="">Wordpress</a></li>
-                                                    <li><a href="#" title="">Photoshop</a></li>
-                                                    <li><a href="#" title="">Illustrator</a></li>
-                                                    <li><a href="#" title="">Corel Draw</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job-status-bar">
-                                                <ul class="like-com">
-                                                    <li>
-                                                        <a href="#"><i class="la la-heart"></i> Like</a>
-                                                        <img src="images/liked-img.png" alt="">
-                                                        <span>25</span>
-                                                    </li>
-                                                    <li><a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a></li>
-                                                </ul>
-                                                <a><i class="la la-eye"></i>Views 50</a>
-                                            </div>
-                                        </div><!--post-bar end-->
-                                        <div class="post-bar">
-                                            <div class="post_topbar">
-                                                <div class="usy-dt">
-                                                    <img src="http://via.placeholder.com/50x50" alt="">
-                                                    <div class="usy-name">
-                                                        <h3>John Doe</h3>
-                                                        <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                    </div>
-                                                </div>
-                                                <div class="ed-opts">
-                                                    <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                    <ul class="ed-options">
-                                                        <li><a href="#" title="">Edit Post</a></li>
-                                                        <li><a href="#" title="">Unsaved</a></li>
-                                                        <li><a href="#" title="">Unbid</a></li>
-                                                        <li><a href="#" title="">Close</a></li>
-                                                        <li><a href="#" title="">Hide</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="epi-sec">
-                                                <ul class="descp">
-                                                    <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                    <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                                </ul>
-                                                <ul class="bk-links">
-                                                    <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                    <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                    <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job_descp">
-                                                <h3>Ios Shopping mobile app</h3>
-                                                <ul class="job-dt">
-                                                    <li><span>$300 - $350</span></li>
-                                                </ul>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                                <ul class="skill-tags">
-                                                    <li><a href="#" title="">HTML</a></li>
-                                                    <li><a href="#" title="">PHP</a></li>
-                                                    <li><a href="#" title="">CSS</a></li>
-                                                    <li><a href="#" title="">Javascript</a></li>
-                                                    <li><a href="#" title="">Wordpress</a></li>
-                                                    <li><a href="#" title="">Photoshop</a></li>
-                                                    <li><a href="#" title="">Illustrator</a></li>
-                                                    <li><a href="#" title="">Corel Draw</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="job-status-bar">
-                                                <ul class="like-com">
-                                                    <li>
-                                                        <a href="#"><i class="la la-heart"></i> Like</a>
-                                                        <img src="images/liked-img.png" alt="">
-                                                        <span>25</span>
-                                                    </li>
-                                                    <li><a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a></li>
-                                                </ul>
-                                                <a><i class="la la-eye"></i>Views 50</a>
-                                            </div>
-                                        </div><!--post-bar end-->
-                                        <div class="process-comm">
-                                            <a href="#" title=""><img src="images/process-icon.png" alt=""></a>
-                                        </div><!--process-comm end-->
-                                    </div><!--posts-section end-->
+                                        </div><!--gallery_pf end-->
+                                    </div><!--portfolio-gallery-sec end-->
                                 </div><!--product-feed-tab end-->
                                 <div class="product-feed-tab" id="portfolio-dd">
                                     <div class="portfolio-gallery-sec">
@@ -649,7 +481,7 @@
                         <div class="col-lg-3">
                             <div class="right-sidebar">
                                 <div class="message-btn">
-                                    <a href="#" title=""><i class="fa fa-envelope"></i> Message</a>
+                                    <a href="mailto:{{$user->email}}" title=""><i class="fa fa-envelope"></i> Message</a>
                                 </div>
                                 <div class="widget widget-portfolio">
                                     <div class="wd-heady">
@@ -769,6 +601,81 @@
                             @error('ville_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>selectionner une ville pour ce site</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-primary">Enregistere</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="article" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url('tourisme/article/add-article')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="container col-lg-12 pb-3">
+                            <label for="nom" class="font-weight-bold pb-1">Nom:</label>
+                            <input type="text" class="form-control @error('nom') is-invalid @enderror" name="nom" id="nom" placeholder="nom de l'article">
+                            @error('nom')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Nom requis</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="desc" class="font-weight-bold pb-1">description:</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="desc" placeholder="description de l'article"></textarea>
+                            @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Description requise</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="test" class="font-weight-bold pb-1">Estimation:</label>
+                            <input type="number" class="form-control @error('estimation') is-invalid @enderror" name="estimation" id="est" min="0" max="1000000">
+                            @error('estimation')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Estimation requise</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="img" class="font-weight-bold pb-1">Image:</label>
+                            <input type="file" name="images" class="form-control @error('images') is-invalid @enderror"  id="img">
+                            @error('images')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Image requise</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="container col-lg-12 pb-3">
+                            <label for="cat" class="font-weight-bold pb-1">Categorie:</label>
+                            <select name="categorie_id" class="form-control @error('categorie_id') is-invalid @enderror" id="cat">
+                                <option value="">--selectionner une categorie--</option>
+                                @foreach ($cat_art as $cats)
+                                    <option value="{{ $cats->id }}">{{ $cats->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('categorie_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>selectionner une categorie pour cet article</strong>
                                 </span>
                             @enderror
                         </div>

@@ -34,7 +34,8 @@
 						<a href="index.html" title=""><img src="{{ url('assets/images/logon.png') }}" style="width:40px;" alt=""></a>
 					</div><!--logo end-->
 					<div class="search-bar">
-						<form>
+						<form action="">
+                            @csrf
 							<input type="text" name="search" placeholder="Search...">
 							<button type="submit"><i class="la la-search"></i></button>
 						</form>
