@@ -38,14 +38,14 @@ class HomeController extends Controller
         $Commentaires = Commentaire::select(
             'commentaires.id'
         )
-        ->where('commentaires.speaker_id', '=', Auth::user())
+        ->where('commentaires.speaker_id', '=', Auth::user()->id)
         ->get();
         $nbCommentaires = $Commentaires->count();
 
         $Notes = Note::select(
             'notes.id'
         )
-        ->where('notes.marker_id', '=', Auth::user())
+        ->where('notes.marker_id', '=', Auth::user()->id)
         ->get();
         $nbNotes = $Notes->count();
 

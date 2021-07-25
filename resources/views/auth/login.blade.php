@@ -131,7 +131,7 @@
                                 <br>
                                 <div class="container">
                                     <div class="text-right">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn" style="background-color: #e44d3a; color: white">
                                         Connecter
                                         </button>
                                     </div>

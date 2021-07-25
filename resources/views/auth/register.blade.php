@@ -207,9 +207,7 @@
                                     <div class="orm-group col-md-12">
                                         <div class="container">
                                             <div class="text-right">
-                                                <button type="submit" class="btn btn-primary">
-                                                    Enregister
-                                                </button>
+                                                <button type="submit" class="btn" style="background-color: #e44d3a; color: white">Enregister</button>
                                             </div>
                                         </div>
                                     </div>
