@@ -30,7 +30,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'users'], function () {
     Route::get('/{all}/user', 'App\Http\Controllers\UserController@getUsers');
-    Route::post('/', 'App\Http\Controllers\UserController@create');
     Route::get('/{id}', 'App\Http\Controllers\UserController@show');
     Route::get('/', 'App\Http\Controllers\UserController@index');
 

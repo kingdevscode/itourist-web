@@ -42,7 +42,7 @@
 					<nav>
 						<ul>
 							<li>
-								<a href="index.html" title="">
+								<a href="{{url('/home')}}" title="">
 									<span><img src="{{ url('assets/images/icon1.png') }}" alt=""></span>
 									Home
 								</a>
@@ -128,7 +128,7 @@
 					<div class="user-account">
 						<div class="user-info">
                             <span class="la">
-                                <img src="{{url(Auth::user()->profile)}}" style="width: 50px; height:50px;" class="user-avatar-nav" alt="">
+                                <img src="{{url(Auth::user()->profile)}}" style="width: 40px; height:40px;" class="user-avatar-nav" alt="">
                             </span>
 						</div>
 						<div class="user-account-settingss">
@@ -149,7 +149,11 @@
                                     ">
                                 </div>
                                 @else
+<<<<<<< HEAD
                                     <a href="Login">Connexion</a> ou <a href="register">Enregistrement</a>
+=======
+                                    <a href="{{route('login')}}">Se connecter</a> ou <a href="{{route('register')}}">S'enregistrer</a>
+>>>>>>> bmis
                                 @endif
                             </h3>
 							<h3 class="tc"><a class="dropdown-item" href="{{ route('logout') }}"

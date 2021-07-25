@@ -16,6 +16,7 @@ class CreateNotesTable extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->unsignedInteger('note');
+            //$table->unsignedBigInteger('user_id')->comment('utilisateur qui note')->unique();
             $table->unsignedBigInteger('user_id')->comment('utilisateur qui note');
             $table->unsignedBigInteger('marker_id')->comment('utilisateur qu\'on note')->nullable();
             $table->unsignedBigInteger('article_id')->comment('article qui est note')->nullable();
