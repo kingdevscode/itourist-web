@@ -89,9 +89,9 @@
 
 <div class="container">
     <div class="row align-items-center">
-        <div class="col-md-12 col-sm-12">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="d-flex justify-content-center h-100">
-                <div class="col-md-12 col-sm-10">
+                <div class="col-md-12 col-sm-10 col-xs-12">
                     <div class="card-body">
                         <div class="acc-setting">
                             <div class="card-header" style="background-color: #e44d3a; color: white">
