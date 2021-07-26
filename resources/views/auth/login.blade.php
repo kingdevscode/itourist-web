@@ -79,9 +79,9 @@
 
 <div class="container">
     <div class="row align-items-center">
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-12">
             <div class="d-flex justify-content-center h-100">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-10">
                     <div class="card-body" style="margin-bottom: 10%">
                         <div class="acc-setting">
                             <div class="card-header" style="background-color: #e44d3a; color: white">
@@ -89,7 +89,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <img  class="rounded mx-auto d-block" src="{{url('assets/images/logon.png')}}" style="width: 100px;" alt="">
+                                <img  class="rounded mx-auto d-block" src="{{url('assets/images/logon.png')}}" style="width: 100px; height: 100%;" alt="">
                             </div>
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
