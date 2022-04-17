@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
+use App\Models\Commentaire;
+use App\Models\Note;
+use App\Models\Site;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +29,68 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $Users = User::select(
+            'users.*'
+        )
+        ->latest()
+        ->limit(6)
+        ->get();
+
+        $Commentaires = Commentaire::select(
+            'commentaires.id'
+        )
+        ->where('commentaires.speaker_id', '=', Auth::id())
+        ->get();
+        $nbCommentaires = $Commentaires->count();
+
+        $Notes = Note::select(
+            'notes.id'
+        )
+        ->where('notes.marker_id', '=', Auth::id())
+        ->get();
+        $nbNotes = $Notes->count();
+
+        $sites = Site::select(
+            'sites.*',
+            'users.id AS uid',
+            'users.nom AS poster_name',
+            'users.prenom AS poster_pname',
+            'users.email AS poster_mail',
+            'users.profile AS poster_profile',
+            'villes.nom AS ville'
+        )
+        ->join(
+            'users',
+            'sites.user_id','=', 'users.id'
+        )->join(
+            'villes',
+            'sites.ville_id', '=', 'villes.id'
+        )
+        ->latest()
+        ->get();
+
+        $articles = Article::select(
+            'articles.*',
+            'users.id AS uid',
+            'users.nom AS poster_name',
+            'users.prenom AS poster_pname',
+            'users.email AS poster_mail',
+            'users.profile AS poster_profile'
+        )
+        ->join(
+            'users',
+            'articles.user_id','=', 'users.id'
+        )
+        ->latest()
+        ->limit(5)
+        ->get();
+
+        return view('home', [
+            'users' => $Users,
+            'commentaire' => $nbCommentaires,
+            'note' => $nbNotes,
+            'sites' => $sites,
+            'articles' => $articles
+        ]);
     }
 }

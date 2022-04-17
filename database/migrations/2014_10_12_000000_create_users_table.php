@@ -19,10 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('prenom');
             $table->string('email')->unique();
             $table->string('tel')->unique();
+            $table->string('bio')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('profile')->nullable();
-            $table->unsignedBigInteger('ville_id')->nullable();
+            $table->string('couverture')->nullable();
+            $table->unsignedBigInteger('ville_id')->nullable(); //required
             $table->foreign('ville_id')->references('id')->on('villes')->onDelete('restrict')->onUpdate('cascade');
             $table->rememberToken();
             $table->timestamps();

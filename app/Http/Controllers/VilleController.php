@@ -14,7 +14,6 @@ class VilleController extends Controller
      */
     public function index()
     {
-        $ville = Ville::latest()->get();
         return view('ville.listeVille', compact('ville'));
     }
 
@@ -23,9 +22,10 @@ class VilleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('ville.ajoutVille');
+        $villes = Ville::latest()->get();
+        return view('ville.ajoutVille', compact('villes'));
     }
 
     /**
@@ -64,7 +64,7 @@ class VilleController extends Controller
     public function edit($id)
     {
         $ville = Ville::findOrFail($id);
-        return view('ville.ajoutVille', compact('ville'));
+        return view('ville.modifierVille', compact('ville'));
     }
 
     /**

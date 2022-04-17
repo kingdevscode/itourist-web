@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\User;
 use App\Models\Commentaire;
 use Illuminate\Http\Request;
@@ -32,8 +33,27 @@ class CommentaireArticleController extends Controller
      */
     public function create($id)
     {
-        $article['id']=$id;
-        return view('commentaire.commentaireArticle.ajoutCommentaire', compact('article'));
+
+        $article = Article::select(
+            'article.*',
+            'users.id AS uid',
+            'users.nom AS poster_name',
+            'users.prenom AS poster_pname',
+            'users.email AS poster_mail',
+            'users.profile AS poster_profile',
+            'villes.nom AS ville'
+        )
+        ->join(
+            'users',
+            'sites.user_id','=', 'users.id'
+        )->join(
+            'villes',
+            'sites.ville_id', '=', 'villes.id'
+        )->where('articles.id', '=', $id)
+        ->first()
+        ->get();
+
+        return view('commentaire.article', compact('article'));
     }
 
 

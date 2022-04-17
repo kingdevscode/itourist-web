@@ -15,20 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::get('/app', function () {
-    return view('app');
-});
 
-Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
+//Route::get('getArticle', 'App\Http\Controllers\ArticleController@index');
+Route::get('search-all', 'App\Http\Controllers\SearchController@searchAll');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+
 Route::middleware(['auth'])->group(function () {
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/{all}/user', 'App\Http\Controllers\UserController@getUsers');
+        Route::get('/{id}', 'App\Http\Controllers\UserController@show');
+        Route::get('/', 'App\Http\Controllers\UserController@index');
+
+        Route::delete('/{id}', 'App\Http\Controllers\UserController@destroy')->where('user', '[0-9]+');
+        Route::match(['post', 'put'], '/{id}', 'App\Http\Controllers\UserController@update');
+    });
+
     Route::name('tourisme')->namespace('')->prefix('/tourisme')->group(function (){
         Route::name('categorie.')->namespace('')->prefix('/categorie')->group(function (){
             Route::get('/list-categorie', 'App\Http\Controllers\CategorieController@index')->name('categorie-list');
@@ -51,7 +61,7 @@ Route::middleware(['auth','add-user'])->group(function () {
             Route::get('/edit-ville/{id}', 'App\Http\Controllers\VilleController@edit')->name('ville-edit');
             Route::post('/update-ville/{id}', 'App\Http\Controllers\VilleController@update')->name('ville-update');
             Route::get('/create-ville', 'App\Http\Controllers\VilleController@create')->name('ville-create');
-            Route::get('/delete-ville', 'App\Http\Controllers\VilleController@destroy')->name('ville-delete');
+            Route::get('/delete-ville/{id}', 'App\Http\Controllers\VilleController@destroy')->name('ville-delete');
         });
 
         Route::name('demande.')->namespace('')->prefix('/demande')->group(function (){
@@ -87,7 +97,7 @@ Route::middleware(['auth','add-user'])->group(function () {
             Route::get('/edit-article/{id}', 'App\Http\Controllers\ArticleController@edit')->name('article-edit');
             Route::post('/update-article/{id}', 'App\Http\Controllers\ArticleController@update')->name('article-update');
             Route::get('/create-article', 'App\Http\Controllers\ArticleController@create')->name('article-create');
-            Route::get('/delete-article', 'App\Http\Controllers\ArticleController@destroy')->name('article-delete');
+            Route::get('/delete-article/{id}', 'App\Http\Controllers\ArticleController@destroy')->name('article-delete');
         });
 
         /**

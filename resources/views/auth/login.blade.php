@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 @extends('app')
 
 @section('content')
@@ -71,4 +71,90 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection --}}
+
+@include('header')
+
+<body style="height: 100%;">
+
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="d-flex justify-content-center h-100">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="card-body" style="margin-bottom: 10%">
+                        <div class="acc-setting">
+                            <div class="card-header" style="background-color: #e44d3a; color: white">
+                                <h3 class="col text-center">Connexion</h3>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <img  class="rounded mx-auto d-block" src="{{url('assets/images/logon.png')}}" style="width: 100px; height: 100%;" alt="">
+                            </div>
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+                                <br>
+                                <div class="form-group row">
+                                    <div class="container">
+                                        <label for="email">Email</label>
+                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus>
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>Adresse email incorrecte</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group row">
+                                    <div class="container">
+                                        <label for="password">Mot de de passe</label>
+                                        <input id="password" type="password" place class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password">
+
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>Mot de passe incorrecte</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="container">
+                                    <div class="form-group row">
+                                        <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                        <label class="form-check-label" for="remember">
+                                            Rester connecter
+                                        </label>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="container">
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">
+                                        Connecter
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="card-footer" style="margin-bottom: 10%">
+                                    <div class="d-flex justify-content-center links">
+                                        N'avez-vous pas de compte ? <a href="{{ route('register') }}">Créer un compte</a>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex justify-content-center">
+                                        <a href="#">Mot de passe oublié ?</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+

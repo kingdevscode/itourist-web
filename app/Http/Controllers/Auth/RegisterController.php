@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Input\Input;
 
 class RegisterController extends Controller
 {
@@ -50,9 +52,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'nom' => 'required|string|max:50',
+            'prenom' => 'string|max:50',
+            'email' => 'required|string|email|max:255|unique:users',
+            'tel' => 'required|string|min:9|max:20',
+            'password' => 'min:6|required_with:password-confirm|same:password-confirm',
+            'password-confirm' => 'min:6',
         ]);
     }
 
@@ -64,10 +69,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $imageName = 'default.png';
+        $imageName1 = 'default.jpeg';$bio = "";
+
+        if (isset($data['profile'])) {
+
+            $imageName = time() . '.' . $data['profile']->getClientOriginalExtension();
+
+            $data['profile']->move(
+            base_path() . '/public/assets/images/profiles', $imageName
+            );
+        }
+        if (isset($data['couverture'])) {
+
+            $imageName = time() . '.' . $data['couverture']->getClientOriginalExtension();
+
+            $data['couverture']->move(
+            base_path() . '/public/assets/images/couvertures', $imageName1
+            );
+        }
+
         return User::create([
-            'name' => $data['name'],
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'tel' => $data['tel'],
+            'bio' => 'Bio',
+            'password' => bcrypt($data['password']),
+            'profile' => 'assets/images/profiles/'. $imageName,
+            'couverture' => 'assets/images/couvertures/'. $imageName1,
         ]);
     }
 }
